@@ -1,6 +1,7 @@
 <template>
-  <div style="padding: 10px">
-    <div style="padding: 30px;background:#409EFF "  >
+  <div class="body">
+    <div style="padding: 30px;background:#409EFF;border-radius: 15px 15px 15px 15px ;
+  box-shadow: 2px 2px 10px #475669;" >
       <p style="font-size: 120%;font-weight: bolder;color: white">
         单样本预测
       </p>
@@ -78,18 +79,8 @@ export default {
   methods: {
     onSubmit() {
       console.log('submit!');
-      if(!this.form.htname){
-        this.$alert('请输入完整特征', '预测失败！', {
-          type: 'warning',
-          confirmButtonText: '确定',
-          callback: action => {
-            this.$message({
-              type: '',
-              message: `action: ${ action }`
-            });
-          }
-        });
-      }else if(!this.form.content){
+      console.log(this.form);
+      if(!this.form.data1){
         this.$alert('请输入完整特征。', '预测失败！', {
           type: 'warning',
           confirmButtonText: '确定',
@@ -100,23 +91,22 @@ export default {
             });
           }
         });
-      }
-      else{
-
-        // //弹窗
-        // this.$alert('已成功起草', '上传成功！', {
-        //   type: 'success',
-        //   confirmButtonText: '确定',
-        //   callback: action => {
-        //     this.$message({
-        //       type: 'success',
-        //       message: `action: ${ action }`
-        //     });
-        //   }
-        // });
-        // //上传
-        // request.post("/api/user",this.form).then(res =>{
-        // })
+      }else{
+        //弹窗
+        this.$alert('已成功预测', '上传成功！', {
+          type: 'success',
+          confirmButtonText: '确定',
+          callback: action => {
+            this.$message({
+              type: 'success',
+              message: `action: ${ action }`
+            });
+          }
+        });
+        //上传
+        request.post("/api/single_predict",this.form).then(res =>{
+          console.log(res.data)
+        })
       }
     }
   }
@@ -125,4 +115,11 @@ export default {
 
 }
 <style scoped>
+.body{
+  padding: 10px;height: auto;margin-right: 15px;
+  border-radius: 25px 25px 25px 25px ;
+  box-shadow: 2px 2px 10px #06C;
+}
+
+
 </style>

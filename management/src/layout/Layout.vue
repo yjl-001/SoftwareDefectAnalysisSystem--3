@@ -4,11 +4,11 @@
     <!--    主题-->
     <div style="display :flex">
       <!--      侧边栏-->
-      <Aside />
+      <Aside style="margin-right: 10px"/>
       <!--      主体-->
-      <router-view style="flex:1"/>
-
-    </div></div>
+      <router-view style="flex:1;margin-top: 15px;width: 80%                       "/>
+    </div>
+  </div>
 </template>
 
 <script>

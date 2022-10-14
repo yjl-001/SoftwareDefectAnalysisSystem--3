@@ -1,6 +1,7 @@
 <template>
-  <div style="padding: 10px">
-    <div style="padding: 30px;background:#409EFF "  >
+  <div class="body">
+    <div style="padding: 30px;background:#409EFF;border-radius: 15px 15px 15px 15px ;
+  box-shadow: 2px 2px 10px #475669;"   >
       <p style="font-size: 120%;font-weight: bolder;color: white">
         数据集预测
       </p>
@@ -87,44 +88,9 @@ export default {
             });
           }
         });
-      }else if(!this.form.htname){
-        this.$alert('合同名称不能为空。', '起草失败！', {
-          type: 'warning',
-          confirmButtonText: '确定',
-          callback: action => {
-            this.$message({
-              type: '',
-              message: `action: ${ action }`
-            });
-          }
-        });
-      }else if(!this.form.content){
-        this.$alert('合同内容不能为空。', '起草失败！', {
-          type: 'warning',
-          confirmButtonText: '确定',
-          callback: action => {
-            this.$message({
-              type: '',
-              message: `action: ${ action }`
-            });
-          }
-        });
-      }
-      else if(!this.form.khname){
-        this.$alert('客户名称不能为空。', '起草失败！', {
-          type: 'warning',
-          confirmButtonText: '确定',
-          callback: action => {
-            this.$message({
-              type: '',
-              message: `action: ${ action }`
-            });
-          }
-        });
       }else{
-
         //弹窗
-        this.$alert('已成功起草', '上传成功！', {
+        this.$alert('已成功预测', '上传成功！', {
           type: 'success',
           confirmButtonText: '确定',
           callback: action => {
@@ -135,7 +101,8 @@ export default {
           }
         });
         //上传
-        request.post("/api/user",this.form).then(res =>{
+        request.post("/api/dataset_predict",this.form).then(res =>{
+          console.log(res.data)
         })
       }
     }
@@ -145,4 +112,10 @@ export default {
 
 }
 <style scoped>
+
+.body{
+  padding: 10px;height: auto;margin-right: 15px;
+  border-radius: 25px 25px 25px 25px ;
+  box-shadow: 2px 2px 10px #06C;
+}
 </style>

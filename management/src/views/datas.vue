@@ -1,5 +1,5 @@
 <template>
-  <div style="padding: 10px">
+  <div style="padding: 10px" class="body">
 <!--    <div style="padding: 30px;background:#409EFF "  >-->
 <!--      <p class="sample" style="font-size: 120%;font-weight: bolder;color: white">-->
 <!--        预测记录查询-->
@@ -57,20 +57,6 @@
           label="使用模型"
           width="120">
       </el-table-column>
-<!--      <el-table-column-->
-<!--          label="预测结果"-->
-<!--          width="120">-->
-<!--        <template #default="scope">-->
-<!--          <span v-if="scope.row.jieduan === 0">待分配</span>-->
-<!--          <span v-if="scope.row.jieduan === 1">待会签</span>-->
-<!--          <span v-if="scope.row.jieduan === 2">待定稿</span>-->
-<!--          <span v-if="scope.row.jieduan === 3">待审核</span>-->
-<!--          <span v-if="scope.row.jieduan === 4">待签订</span>-->
-<!--          <span v-if="scope.row.jieduan === 5">已完成</span>-->
-<!--        </template>-->
-<!--      </el-table-column>-->
-
-
 
 
       <el-table-column
@@ -83,12 +69,6 @@
               size="small">
             查看预测结果
           </el-button>
-<!--          <el-button-->
-<!--              @click="showcontract(scope.row)"-->
-<!--              type="text"-->
-<!--              size="small">-->
-<!--            修改-->
-<!--          </el-button>-->
           <el-button
               @click="del(scope.row)"
               type="text"
@@ -122,7 +102,6 @@
 import request from "@/utils/request";
 
 export default {
-  name: "chaxun",
   data(){
     return{
       user:{},
@@ -162,7 +141,7 @@ export default {
     },
     load(){
       console.log(this.search),
-          request.get("",{
+          request.get("/api/datasets_center",{
             params:{ pageNum:1,
               PageSize: 10,
               search:this.search,
@@ -180,17 +159,34 @@ export default {
       this.dialogFormVisible = true
       this.signdata=JSON.parse(JSON.stringify(name))
     },
-
-    showcontract(name) {
-      // rows.splice(index, 1);
-      this.showVisible=true;
-      this.signdata=JSON.parse(JSON.stringify(name))
-    }
+    onSubmit(){
+      request.get("/api/datasets_center",{
+        params:{ pageNum:1,
+          PageSize: 10,
+          search:this.search,
+          user:this.user.name,
+        }
+      }).then(res =>{
+        console.log(res)
+        console.log("request")
+        this.tableData = res.data.records
+        this.total=res.data.total
+      })
+    },
   },
 
 }
 </script>
 
 <style scoped>
+  .block{
+    position: absolute;
+    top:80%;
 
+  }
+  .body{
+    padding: 10px;height: auto;margin-right: 15px;
+    border-radius: 25px 25px 25px 25px ;
+    box-shadow: 2px 2px 10px #06C;
+  }
 </style>

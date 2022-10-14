@@ -1,8 +1,7 @@
 
 <template>
-
-  <div>
-    <div><p style="font-size: 200%;color: #409EFF;font-weight: bolder;margin-top: 60px;margin-left: 60px">
+  <div class="body">
+    <div><p style="font-size: 200%;color: #409EFF;font-weight: bolder;margin-top: 20px;margin-left: 60px">
       基于机器学习的缺陷预测系统
     </p>
       <p style="font-size: 100%;color: darkgray;font-weight: bolder;margin-left: 60px;margin-top: 20px">
@@ -10,7 +9,7 @@
       </p></div>
 
     <div>
-      <el-image style="margin-left: 60px;height: 400px;margin-top:20px " :src="require('D:\\JetBrainsCode\\WebStormProjects\\Vue\\management\\resources\\back1.png')" ></el-image>
+<!--      <el-image style="margin-left: 60px;height: 400px;margin-top:20px " :src="require('D:\\JetBrainsCode\\WebStormProjects\\Vue\\management\\resources\\back1.png')" ></el-image>-->
 
     </div>
     <div class="div_abs">
@@ -18,7 +17,6 @@
       <el-button  type="danger" icon="el-icon-document-copy" round class="bt_main" style="margin: 10px;font-size: 150%;font-weight: bolder" @click="$router.push('/sign')">数据集预测</el-button>
       <el-button  type="success" icon="el-icon-coordinate" round class="bt_main" style="font-size: 150%;font-weight: bolder">模型展示</el-button>
       <el-button  type="warning" icon="el-icon-refresh-left" round class="bt_main" style="font-size: 150%;font-weight: bolder" @click="$router.push('/datas')" >预测记录</el-button>
-
     </div>
   </div>
 
@@ -58,8 +56,8 @@ export default {
 .div_abs{
   width:700px;
   height:120px;
-  left:1000px;
-  top:240px;
+  right:0%;
+  top:15%;
   float:right;
   position:absolute;
 }
@@ -67,5 +65,11 @@ export default {
 
   height: 200px;
   width:300px;
+}
+
+.body{
+  padding: 10px;height: auto;margin-right: 15px;
+  border-radius: 25px 25px 25px 25px ;
+  box-shadow: 2px 2px 10px #06C;
 }
 </style>
