@@ -1,5 +1,6 @@
 
-<template>
+<template style="background-color: royalblue" >
+
   <div class="body">
     <div><p style="font-size: 200%;color: #409EFF;font-weight: bolder;margin-top: 20px;margin-left: 60px">
       基于机器学习的缺陷预测系统

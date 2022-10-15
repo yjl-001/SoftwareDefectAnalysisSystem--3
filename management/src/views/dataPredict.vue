@@ -65,11 +65,11 @@ export default {
         qd2:"",
       },
       options: [{
-        value: '选项1',
-        label: '线性回归'
-      }, {
-        value: '选项2',
+        value: 'logistic',
         label: '逻辑回归'
+      }, {
+        value: 'svm',
+        label: '支撑向量机'
       }],
       value: ''
     }
