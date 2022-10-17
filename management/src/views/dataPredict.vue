@@ -18,21 +18,23 @@
           </el-option>
         </el-select>
       </el-form-item>
-
-
             <el-form-item label="上传附件">
               <el-upload
+                  size="small"
                   class="upload-demo"
-                  action="https://jsonplaceholder.typicode.com/posts/"
-                  :on-preview="handlePreview"
-                  :on-remove="handleRemove"
-                  :before-remove="beforeRemove"
-                  multiple
-                  :limit="3"
-                  :on-exceed="handleExceed"
-                  :file-list="fileList">
-                <el-button size="small" type="primary">点击上传</el-button>
-                <div slot="tip" class="el-upload__tip">选择上传txt/data/csv文件</div>
+                  drag
+                  :on-change="handleChange"
+                  :file-list="fileList"
+                  action=''
+                  :auto-upload='true'
+                  :before-upload="beforeAvatarUpload"
+              >
+                <i class="el-icon-upload"></i>
+                <div class="el-upload__text">将文件拖到此处，或<em>点击上传</em></div>
+                <template v-slot:tip>
+                  <div class="el-upload-tip el-upload-tip--small" style="margin-bottom: 5px">
+                  </div>
+                </template>
               </el-upload>
             </el-form-item>
 
@@ -53,6 +55,8 @@ import request from "@/utils/request";
 export default {
   data() {
     return {
+      fileType: ["csv", "txt","xls","xlxs","jpg", "jpeg"],
+      fileList:[],
       form: {
         where:1,
         hq1:"",
@@ -75,36 +79,50 @@ export default {
     }
   },
   methods: {
-    onSubmit() {
-      console.log('submit!');
-      if(this.form.time1>this.form.time2){
-        this.$alert('起止时间错误。', '起草失败！', {
-          type: 'warning',
-          confirmButtonText: '确定',
-          callback: action => {
-            this.$message({
-              type: '',
-              message: `action: ${ action }`
-            });
-          }
-        });
-      }else{
-        //弹窗
-        this.$alert('已成功预测', '上传成功！', {
-          type: 'success',
-          confirmButtonText: '确定',
-          callback: action => {
-            this.$message({
-              type: 'success',
-              message: `action: ${ action }`
-            });
-          }
-        });
-        //上传
-        request.post("/api/dataset_predict",this.form).then(res =>{
-          console.log(res.data)
-        })
+    beforeAvatarUpload(file) {
+      if (file.type != "" || file.type != null || file.type != undefined){
+        //截取文件的后缀，判断文件类型
+        const FileExt = file.name.replace(/.+\./, "").toLowerCase();
+        //计算文件的大小
+        const isLt5M = file.size / 1024 / 1024 < 50; //这里做文件大小限制
+        //如果大于50M
+        if (!isLt5M) {
+          this.$message.error('上传文件大小不能超过 50MB!');
+          return false;
+        }
+        //如果文件类型不在允许上传的范围内
+        if(this.fileType.includes(FileExt)){
+          return true;
+        }
+        else {
+          this.$message.error("上传文件格式不正确!");
+          return false;
+        }
       }
+    },
+    UploadFile () {
+      if(this.fileList.length <= 0){
+        this.$message.error('请选择文件');
+        return
+      }
+      const formData = new FormData();
+      formData.append('file', this.fileList[0].raw)
+      // post地址
+      this.showResult = true;
+    },
+    handleChange(file) {
+      this.fileList = [file]
+    },
+    onSubmit() {
+      if(this.fileList.length <= 0){
+        this.$message.error('请选择文件');
+        return
+      }
+      const formData = new FormData();
+      formData.append('file', this.fileList[0].raw)
+      // post地址
+      console.log(this.fileList)
+      this.showResult = true;
     }
   }
 }

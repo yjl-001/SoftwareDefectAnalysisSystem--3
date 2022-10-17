@@ -20,12 +20,12 @@
         </el-form-item>
 
         <el-form-item label="特征2">
-          <el-input v-model="form.CvsWEntropy" style="width: 200px">
+          <el-input v-model="form.cvsWEntropy" style="width: 200px">
           </el-input>
         </el-form-item>
 
         <el-form-item label="特征3">
-          <el-input v-model="form.CvsEntropy" style="width: 200px">
+          <el-input v-model="form.cvsEntropy" style="width: 200px">
           </el-input>
         </el-form-item>
 
@@ -53,14 +53,14 @@
 
         <el-form-item>
           <el-button type="primary" @click="onSubmit">预测</el-button>
-          <el-button>取消</el-button>
+          <el-button @click="">取消</el-button>
         </el-form-item>
       </el-form>
     </div>
     <div class="box2">
       <el-form class="box1" ref="form" :model="form" label-width="80px" style="margin: 20px;font-weight: bold">
         <el-form-item label="特征1">
-          <el-input v-model="form.CvsLogEntropy" style="width: 200px">
+          <el-input v-model="form.cvsLogEntropy" style="width: 200px">
           </el-input>
         </el-form-item>
 
@@ -75,7 +75,7 @@
         </el-form-item>
 
         <el-form-item label="特征4">
-          <el-input v-model="form.CvsLinEntropy" style="width: 200px">
+          <el-input v-model="form.cvsLinEntropy" style="width: 200px">
           </el-input>
         </el-form-item>
 
@@ -85,35 +85,63 @@
         </el-form-item>
 
         <el-form-item label="特征6">
-          <el-input v-model="form.CvsExpEntropy" style="width: 200px">
+          <el-input v-model="form.cvsExpEntropy" style="width: 200px">
           </el-input>
         </el-form-item>
 
       </el-form>
+
+      <el-dialog
+          title="预测结果"
+          :visible.sync="dialogVisible"
+          width="30%">
+        <span>{{ this.result }}</span>
+        <span slot="footer" class="dialog-footer">
+    <el-button type="primary" @click="dialogVisible = false">确 定 并 保 存</el-button>
+  </span>
+      </el-dialog>
     </div>
+
+
   </div>
 </template>
 
 <script>
+import $ from 'jquery'
 import request from "@/utils/request";
 
 export default {
   data() {
     return {
+      dialogVisible: false,
+      result:'',
       form: {
         model:'',
       },
     }
   },
+  mounted(){
+
+  },
   methods: {
+
     onSubmit() {
       console.log('submit!');
       console.log(this.form);
         //上传
-        request.post("/api/single_predict",this.form).then(res =>{
+        request.post("/api/predict/single",this.form).then(res =>{
           console.log(res.data)
+          if(res.data=='buggy'){
+            this.result='恐怕是有点Bug..';
+            this.dialogVisible=true;
+          }else{
+            this.result='牛,没Bug..';
+            this.dialogVisible=true;
+          }
         })
-    }
+    },
+
+
   }
 }
 </script>
@@ -137,6 +165,5 @@ export default {
   left: 40%  ;
   top:25%;
 }
-
 
 </style>

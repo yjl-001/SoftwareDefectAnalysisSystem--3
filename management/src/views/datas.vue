@@ -9,7 +9,7 @@
     <div style="padding: 10px">
       <el-form :inline="true" :model="search" class="demo-form-inline">
         <el-form-item label="数据集名称" style="font-weight: bolder">
-          <el-input v-model="search.datasetName" placeholder="数据集名称"></el-input>
+          <el-input v-model="search.datasetname" placeholder="数据集名称"></el-input>
         </el-form-item>
         <el-form-item label="数据格式" style="font-weight: bolder">
           <el-select v-model="search.datasetKind" placeholder="数据格式">
@@ -109,7 +109,7 @@ export default {
       pageNum:1,
       PageSize:10,
       search:{
-        datasetName:'',
+        datasetname:'',
         datasetKind:'',
         model:''
 
@@ -145,7 +145,7 @@ export default {
             params:{ pageNum:1,
               PageSize: 10,
               search:this.search,
-              user:this.user.name,
+              user:this.user.username,
             }
           }).then(res =>{
             console.log(res)
@@ -164,7 +164,7 @@ export default {
         params:{ pageNum:1,
           PageSize: 10,
           search:this.search,
-          user:this.user.name,
+          user:this.user.username,
         }
       }).then(res =>{
         console.log(res)
