@@ -141,10 +141,9 @@ export default {
     },
     load(){
       console.log(this.search),
-          request.get("/api/datasets_center",{
+          request.get("/api/datasets_center/none",{
             params:{ pageNum:1,
               PageSize: 10,
-              search:this.search,
               user:this.user.username,
             }
           }).then(res =>{
@@ -160,7 +159,7 @@ export default {
       this.signdata=JSON.parse(JSON.stringify(name))
     },
     onSubmit(){
-      request.get("/api/datasets_center",{
+      request.get("/api/datasets_center/search",{
         params:{ pageNum:1,
           PageSize: 10,
           search:this.search,
