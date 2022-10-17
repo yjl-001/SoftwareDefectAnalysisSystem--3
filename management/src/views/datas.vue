@@ -7,12 +7,12 @@
 <!--    </div>-->
     <!--      搜索区域-->
     <div style="padding: 10px">
-      <el-form :inline="true" :model="search" class="demo-form-inline">
+      <el-form :inline="true"  :model="form" class="demo-form-inline">
         <el-form-item label="数据集名称" style="font-weight: bolder">
-          <el-input v-model="search.datasetname" placeholder="数据集名称"></el-input>
+          <el-input v-model="form.datasetname" placeholder="数据集名称"></el-input>
         </el-form-item>
         <el-form-item label="数据格式" style="font-weight: bolder">
-          <el-select v-model="search.datasetKind" placeholder="数据格式">
+          <el-select v-model="form.datasetKind" placeholder="数据格式">
             <el-option label="单条数据" value="single"></el-option>
             <el-option label=".txt" value="txt"></el-option>
             <el-option label=".csv" value="csv"></el-option>
@@ -20,7 +20,7 @@
           </el-select>
         </el-form-item>
         <el-form-item label="使用模型" style="font-weight: bolder">
-          <el-select v-model="search.model" placeholder="使用模型">
+          <el-select v-model="form.model" placeholder="使用模型">
             <el-option label="逻辑回归" value="logistic"></el-option>
             <el-option label="线性回归" value="linear"></el-option>
           </el-select>
@@ -108,11 +108,8 @@ export default {
       total:0,
       pageNum:1,
       PageSize:10,
-      search:{
-        datasetname:'',
-        datasetKind:'',
+      form:{
         model:''
-
       },
       tableData:[
         {
@@ -140,12 +137,11 @@ export default {
     del(row){
     },
     load(){
-      console.log(this.search),
           request.get("/api/datasets_center/none",{
-            params:{ pageNum:1,
-              PageSize: 10,
-              user:this.user.username,
-            }
+            params:{
+              pageNum:1,
+              PageSize: 100,
+              user:this.user.username}
           }).then(res =>{
             console.log(res)
             console.log("request")
@@ -159,11 +155,16 @@ export default {
       this.signdata=JSON.parse(JSON.stringify(name))
     },
     onSubmit(){
-      request.get("/api/datasets_center/search",{
-        params:{ pageNum:1,
-          PageSize: 10,
-          search:this.search,
-          user:this.user.username,
+      console.log(this.form),
+      request.get("/api/datasets_center/search",
+          {
+        params:{
+          pageNum:1,
+          pageSize: 10,
+          username:this.user.username,
+          datasetname:this.form.datasetname,
+          datasetKind:this.form.datasetKind,
+          model:this.form.model
         }
       }).then(res =>{
         console.log(res)

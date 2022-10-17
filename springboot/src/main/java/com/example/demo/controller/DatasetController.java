@@ -30,13 +30,15 @@ public class DatasetController {
     @Resource
     UserDatasetMapper userDatasetMapper;
 
-    @RequestMapping("/search")
+    @RequestMapping(value = "/search")
     public Result<?> queryDataset(@RequestParam(defaultValue = "1") Integer pageNum,
                                   @RequestParam(defaultValue = "10") Integer pageSize,
-                                  @RequestBody Search search,
-                                  @RequestParam(defaultValue = "admin") String username){
+                                  @RequestParam(defaultValue = "admin") String username,
+                                  Search search
+    ){
 
-        System.out.println("keyi");
+        System.out.println(username);
+        System.out.println(pageSize);
         LambdaQueryWrapper<UserInfo> wrapper = Wrappers.<UserInfo>lambdaQuery().eq(UserInfo::getUsername,username);
         UserInfo userInfo = userInfoMapper.selectOne(wrapper);
 
@@ -76,7 +78,7 @@ public class DatasetController {
 
     }
 
-    @RequestMapping("none")
+    @RequestMapping("/none")
     public Result<?> queryNone(@RequestParam(defaultValue = "1") Integer pageNum,
                                   @RequestParam(defaultValue = "10") Integer pageSize,
                                   @RequestBody(required = false) Search search,
