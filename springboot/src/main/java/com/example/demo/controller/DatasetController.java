@@ -2,8 +2,8 @@ package com.example.demo.controller;
 
 import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
-import com.baomidou.mybatisplus.extension.plugins.pagination.*;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.example.demo.common.Result;
 import com.example.demo.entity.Dataset;
 import com.example.demo.entity.Search;
@@ -13,7 +13,6 @@ import com.example.demo.mapper.DatasetMapper;
 import com.example.demo.mapper.UserDatasetMapper;
 import com.example.demo.mapper.UserInfoMapper;
 import org.springframework.web.bind.annotation.*;
-
 
 import javax.annotation.Resource;
 import java.util.ArrayList;
@@ -31,22 +30,69 @@ public class DatasetController {
     @Resource
     UserDatasetMapper userDatasetMapper;
 
-    @RequestMapping
+    @RequestMapping("/search")
     public Result<?> queryDataset(@RequestParam(defaultValue = "1") Integer pageNum,
                                   @RequestParam(defaultValue = "10") Integer pageSize,
                                   @RequestBody Search search,
                                   @RequestParam(defaultValue = "admin") String username){
-        System.out.println(username);
+
+        System.out.println("keyi");
         LambdaQueryWrapper<UserInfo> wrapper = Wrappers.<UserInfo>lambdaQuery().eq(UserInfo::getUsername,username);
         UserInfo userInfo = userInfoMapper.selectOne(wrapper);
-        System.out.println(userInfo);
+
         List<UserDataset> datasets = userDatasetMapper.selectAll(userInfo.getUserid());
-        if (!StrUtil.isNotBlank(search.getDatasetname()) && !StrUtil.isNotBlank(search.getDatasetKind()) && !StrUtil.isNotBlank(search.getModel())){
-            List<Integer> datasetIDs = new ArrayList<>();
-            for (int i =0;i<datasets.size();i++){
-                datasetIDs.add(datasets.get(i).getDatasetid());
+        List<Integer> datasetIDs = new ArrayList<>();
+        for (int i =0;i<datasets.size();i++){
+            datasetIDs.add(datasets.get(i).getDatasetid());
+        }
+        datasetIDs.add(-1);
+        System.out.println(search);
+        if (search == null){
+            System.out.println("aaaaaaaaaa");
+            LambdaQueryWrapper<Dataset> wrapper3 = Wrappers.<Dataset>lambdaQuery().orderByAsc(Dataset::getDatasetname);
+            wrapper3.in(Dataset::getDatasetid,datasetIDs);
+            Page<Dataset> datasetPage = datasetMapper.selectPage(new Page<>(pageNum,pageSize),wrapper3);
+
+
+            return Result.success(datasetPage);
+        }else {
+            System.out.println("bbbbbbbbbbbbbb");
+            LambdaQueryWrapper<Dataset> wrapper1;
+            if (StrUtil.isNotBlank(search.getDatasetname())){
+                wrapper1 = Wrappers.<Dataset>lambdaQuery().like(Dataset::getDatasetname,search.getDatasetname());
+            }else {
+                wrapper1 = Wrappers.<Dataset>lambdaQuery().in(Dataset::getDatasetid,datasetIDs);
             }
-            datasetIDs.add(-1);
+            if (StrUtil.isNotBlank(search.getDatasetKind())){
+                wrapper1 = wrapper1.like(Dataset::getDatasetKind,search.getDatasetKind());
+            }
+            if (StrUtil.isNotBlank(search.getModel())){
+                wrapper1.eq(Dataset::getModel,search.getModel());
+            }
+            Page<Dataset> datasetPage = datasetMapper.selectPage(new Page<>(pageNum,pageSize),wrapper1);
+
+            return Result.success(datasetPage);
+        }
+
+    }
+
+    @RequestMapping("none")
+    public Result<?> queryNone(@RequestParam(defaultValue = "1") Integer pageNum,
+                                  @RequestParam(defaultValue = "10") Integer pageSize,
+                                  @RequestBody(required = false) Search search,
+                                  @RequestParam(defaultValue = "admin") String username){
+
+        LambdaQueryWrapper<UserInfo> wrapper = Wrappers.<UserInfo>lambdaQuery().eq(UserInfo::getUsername,username);
+        UserInfo userInfo = userInfoMapper.selectOne(wrapper);
+
+        List<UserDataset> datasets = userDatasetMapper.selectAll(userInfo.getUserid());
+        List<Integer> datasetIDs = new ArrayList<>();
+        for (int i =0;i<datasets.size();i++){
+            datasetIDs.add(datasets.get(i).getDatasetid());
+        }
+        datasetIDs.add(-1);
+        System.out.println(search);
+        if (search == null){
             LambdaQueryWrapper<Dataset> wrapper3 = Wrappers.<Dataset>lambdaQuery().orderByAsc(Dataset::getDatasetname);
             wrapper3.in(Dataset::getDatasetid,datasetIDs);
             Page<Dataset> datasetPage = datasetMapper.selectPage(new Page<>(pageNum,pageSize),wrapper3);
@@ -58,14 +104,20 @@ public class DatasetController {
             if (StrUtil.isNotBlank(search.getDatasetname())){
                 wrapper1 = Wrappers.<Dataset>lambdaQuery().like(Dataset::getDatasetname,search.getDatasetname());
             }else {
-
+                wrapper1 = Wrappers.<Dataset>lambdaQuery().in(Dataset::getDatasetid,datasetIDs);
             }
+            if (StrUtil.isNotBlank(search.getDatasetKind())){
+                wrapper1 = wrapper1.like(Dataset::getDatasetKind,search.getDatasetKind());
+            }
+            if (StrUtil.isNotBlank(search.getModel())){
+                wrapper1.eq(Dataset::getModel,search.getModel());
+            }
+            Page<Dataset> datasetPage = datasetMapper.selectPage(new Page<>(pageNum,pageSize),wrapper1);
 
-            return Result.success();
+            return Result.success(datasetPage);
         }
 
     }
-
 //    @GetMapping
 //    public Result<?> findPage(@RequestParam(defaultValue = "1") Integer pageNum,
 //                              @RequestParam(defaultValue = "10") Integer pageSize,

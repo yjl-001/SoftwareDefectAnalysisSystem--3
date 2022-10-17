@@ -107,7 +107,6 @@
 </template>
 
 <script>
-import $ from 'jquery'
 import request from "@/utils/request";
 
 export default {

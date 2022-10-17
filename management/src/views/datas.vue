@@ -37,13 +37,13 @@
         max-height="250">
       <el-table-column
           fixed
-          prop="datasetName"
+          prop="datasetname"
           label="数据名称"
           width="250"
       >
       </el-table-column>
       <el-table-column
-          prop="updateTime"
+          prop="uploadtime"
           label="上传时间"
           width="200">
       </el-table-column>
@@ -53,7 +53,7 @@
           width="120">
       </el-table-column>
       <el-table-column
-          prop="Model"
+          prop="model"
           label="使用模型"
           width="120">
       </el-table-column>
