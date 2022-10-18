@@ -22,7 +22,7 @@
         <el-form-item label="使用模型" style="font-weight: bolder">
           <el-select v-model="form.model" placeholder="使用模型">
             <el-option label="逻辑回归" value="logistic"></el-option>
-            <el-option label="线性回归" value="linear"></el-option>
+            <el-option label="支持向量机" value="svm"></el-option>
           </el-select>
         </el-form-item>
         <el-form-item>
