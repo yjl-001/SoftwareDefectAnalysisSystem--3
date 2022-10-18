@@ -1,10 +1,10 @@
 <template>
   <div style="padding: 10px" class="body">
-<!--    <div style="padding: 30px;background:#409EFF "  >-->
-<!--      <p class="sample" style="font-size: 120%;font-weight: bolder;color: white">-->
-<!--        预测记录查询-->
-<!--      </p>-->
-<!--    </div>-->
+    <!--    <div style="padding: 30px;background:#409EFF "  >-->
+    <!--      <p class="sample" style="font-size: 120%;font-weight: bolder;color: white">-->
+    <!--        预测记录查询-->
+    <!--      </p>-->
+    <!--    </div>-->
     <!--      搜索区域-->
     <div style="padding: 10px">
       <el-form :inline="true"  :model="form" class="demo-form-inline">
@@ -137,17 +137,17 @@ export default {
     del(row){
     },
     load(){
-          request.get("/api/datasets_center/none",{
-            params:{
-              pageNum:1,
-              PageSize: 100,
-              user:this.user.username}
-          }).then(res =>{
-            console.log(res)
-            console.log("request")
-            this.tableData = res.data.records
-            this.total=res.data.total
-          })
+      request.get("/api/datasets_center/none",{
+        params:{
+          pageNum:1,
+          pageSize: 100,
+          username:this.user.username}
+      }).then(res =>{
+        console.log(res)
+        console.log("request")
+        this.tableData = res.data.records
+        this.total=res.data.total
+      })
     },
     sign_contract(name) {
       // rows.splice(index, 1);
@@ -156,22 +156,22 @@ export default {
     },
     onSubmit(){
       console.log(this.form),
-      request.get("/api/datasets_center/search",
-          {
-        params:{
-          pageNum:1,
-          pageSize: 10,
-          username:this.user.username,
-          datasetname:this.form.datasetname,
-          datasetKind:this.form.datasetKind,
-          model:this.form.model
-        }
-      }).then(res =>{
-        console.log(res)
-        console.log("request")
-        this.tableData = res.data.records
-        this.total=res.data.total
-      })
+          request.get("/api/datasets_center/search",
+              {
+                params:{
+                  pageNum:1,
+                  pageSize: 10,
+                  username:this.user.username,
+                  datasetname:this.form.datasetname,
+                  datasetKind:this.form.datasetKind,
+                  model:this.form.model
+                }
+              }).then(res =>{
+            console.log(res)
+            console.log("request")
+            this.tableData = res.data.records
+            this.total=res.data.total
+          })
     },
   },
 
@@ -179,14 +179,14 @@ export default {
 </script>
 
 <style scoped>
-  .block{
-    position: absolute;
-    top:80%;
+.block{
+  position: absolute;
+  top:80%;
 
-  }
-  .body{
-    padding: 10px;height: auto;margin-right: 15px;
-    border-radius: 25px 25px 25px 25px ;
-    box-shadow: 2px 2px 10px #06C;
-  }
+}
+.body{
+  padding: 10px;height: auto;margin-right: 15px;
+  border-radius: 25px 25px 25px 25px ;
+  box-shadow: 2px 2px 10px #06C;
+}
 </style>

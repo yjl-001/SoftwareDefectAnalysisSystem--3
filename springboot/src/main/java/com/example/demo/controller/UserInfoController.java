@@ -31,13 +31,9 @@ public class UserInfoController {
         UserInfo userInfo1 = userInfoMapper.selectOne(wrapper);
         System.out.println(userInfo1);
         if (userInfo1 == null){
-            System.out.println("shibaile");
             return Result.error("1","用户名或密码错误");
 
         }else {
-            System.out.println("chenggongle");
-            System.out.println(Result.success().getCode());
-            System.out.println(Result.success().getMsg());
             return Result.success(userInfo);
         }
     }

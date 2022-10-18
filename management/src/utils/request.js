@@ -1,5 +1,6 @@
 import axios from 'axios'
 import router from "@/router";
+import qs from 'qs'
 
 const request = axios.create({
     baseURL: "",

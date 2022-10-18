@@ -10,7 +10,6 @@ import org.springframework.web.multipart.MultipartFile;
 
 import javax.annotation.Resource;
 import java.io.IOException;
-import java.io.InputStream;
 
 @RestController
 @CrossOrigin
@@ -48,5 +47,11 @@ public class DataController {
         }
 
     }
-    
+
+    @RequestMapping("dataset")
+    public Result<?> dataset(@RequestParam MultipartFile file){
+        String filename = file.getOriginalFilename();
+        String type= filename.substring(filename.lastIndexOf(".")+1);
+        return Result.success();
+    }
 }

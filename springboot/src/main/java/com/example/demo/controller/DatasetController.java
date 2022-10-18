@@ -33,7 +33,7 @@ public class DatasetController {
     @RequestMapping(value = "/search")
     public Result<?> queryDataset(@RequestParam(defaultValue = "1") Integer pageNum,
                                   @RequestParam(defaultValue = "10") Integer pageSize,
-                                  @RequestParam(defaultValue = "admin") String username,
+                                  @RequestParam String username,
                                   Search search
     ){
 
@@ -78,11 +78,10 @@ public class DatasetController {
 
     }
 
-    @RequestMapping("/none")
-    public Result<?> queryNone(@RequestParam(defaultValue = "1") Integer pageNum,
-                                  @RequestParam(defaultValue = "10") Integer pageSize,
-                                  @RequestBody(required = false) Search search,
-                                  @RequestParam(defaultValue = "admin") String username){
+    @RequestMapping("none")
+    public Result<?> queryNone(@RequestParam Integer pageNum,
+                                  @RequestParam Integer pageSize,
+                                  @RequestParam String username){
 
         LambdaQueryWrapper<UserInfo> wrapper = Wrappers.<UserInfo>lambdaQuery().eq(UserInfo::getUsername,username);
         UserInfo userInfo = userInfoMapper.selectOne(wrapper);
@@ -93,31 +92,12 @@ public class DatasetController {
             datasetIDs.add(datasets.get(i).getDatasetid());
         }
         datasetIDs.add(-1);
-        System.out.println(search);
-        if (search == null){
             LambdaQueryWrapper<Dataset> wrapper3 = Wrappers.<Dataset>lambdaQuery().orderByAsc(Dataset::getDatasetname);
             wrapper3.in(Dataset::getDatasetid,datasetIDs);
             Page<Dataset> datasetPage = datasetMapper.selectPage(new Page<>(pageNum,pageSize),wrapper3);
 
 
             return Result.success(datasetPage);
-        }else {
-            LambdaQueryWrapper<Dataset> wrapper1;
-            if (StrUtil.isNotBlank(search.getDatasetname())){
-                wrapper1 = Wrappers.<Dataset>lambdaQuery().like(Dataset::getDatasetname,search.getDatasetname());
-            }else {
-                wrapper1 = Wrappers.<Dataset>lambdaQuery().in(Dataset::getDatasetid,datasetIDs);
-            }
-            if (StrUtil.isNotBlank(search.getDatasetKind())){
-                wrapper1 = wrapper1.like(Dataset::getDatasetKind,search.getDatasetKind());
-            }
-            if (StrUtil.isNotBlank(search.getModel())){
-                wrapper1.eq(Dataset::getModel,search.getModel());
-            }
-            Page<Dataset> datasetPage = datasetMapper.selectPage(new Page<>(pageNum,pageSize),wrapper1);
-
-            return Result.success(datasetPage);
-        }
 
     }
 //    @GetMapping
