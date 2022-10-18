@@ -112,19 +112,6 @@ export default {
         model:''
       },
       tableData:[
-        {
-          datasetName:'测试数据（单条数据）',
-          updateTime:'2020-12-06',
-          Model:'线性回归',
-          datasetKind:'单条数据',
-        },
-        {
-          datasetName:'测试数据（.csv）',
-          updateTime:'2021-12-06',
-          Model:'逻辑回归',
-          datasetKind:'.csv',
-        }
-        ,
       ]
     }
   },

@@ -8,6 +8,10 @@
       <p style="font-size: 100%;color: darkgray;font-weight: bolder;margin-left: 60px;margin-top: 20px">
         使用我们的系统预测Bug，就是你们最大的Bug~
       </p></div>
+    <div class="hello">
+      <p>系统管理员您好，今天也是元气满满的一天~</p>
+      <p>登录时间：2022-10-06 10:20</p>
+    </div>
 
     <div>
 <!--      <el-image style="margin-left: 60px;height: 400px;margin-top:20px " :src="require('D:\\JetBrainsCode\\WebStormProjects\\Vue\\management\\resources\\back1.png')" ></el-image>-->
@@ -58,12 +62,12 @@ export default {
   width:700px;
   height:120px;
   right:0%;
-  top:15%;
+  top:35%;
   float:right;
   position:absolute;
 }
 .bt_main{
-
+  box-shadow: 3px 3px 3px #888888;
   height: 200px;
   width:300px;
 }
@@ -72,5 +76,18 @@ export default {
   padding: 10px;height: auto;margin-right: 15px;
   border-radius: 25px 25px 25px 25px ;
   box-shadow: 2px 2px 10px #06C;
+}
+
+.hello {
+  position: absolute;
+  top:15%;
+  right: 5%;
+  width: 600px;
+  border-radius: 15px;
+  background-color: #1FC7ED;
+  height: 110px;
+  margin: 20px 0 20px 0;
+  color: white;
+  padding: 28px 0 0 100px;
 }
 </style>

@@ -111,7 +111,7 @@
           width="30%">
         <span>{{ this.result }}</span>
         <span slot="footer" class="dialog-footer">
-    <el-button type="primary" @click="dialogVisible = false">确 定 并 保 存</el-button>
+    <el-button type="primary" @click="dialogVisible = false">确定并保存</el-button>
   </span>
       </el-dialog>
     </div>

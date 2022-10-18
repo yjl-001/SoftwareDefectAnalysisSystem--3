@@ -1,6 +1,9 @@
 <template>
   <div class="body">
     <div>
+       <span class="text" style="margin-top: 15px;margin-left: 30px;color: #303133">
+       训练过程可视化
+      </span>
       <el-form label-width="80px" style="margin: 20px;font-weight: bold">
         <el-form-item label="模型选择" >
           <el-select v-model="model" placeholder="请选择" @change="changedata">
@@ -10,7 +13,68 @@
         </el-form-item>
       </el-form >
     </div>
-    <div id="main" class="main" style="width: 900px; height: 400px"></div>
+<!--    四个card-->
+    <div class="card" style="
+    background-color: #409EFF;
+      position:absolute;
+      top:15%;
+      display: table-cell;
+      right:30%;
+      width: 200px;
+      height: 120px">
+      <span class="text" style="margin-top: 15px;margin-left: 10px">
+        LR &nbsp; &nbsp;&nbsp;0.01
+      </span>
+      <span class="text" style="margin-top: 10px;margin-left: 10px;font-size: 14px">
+        &nbsp学习率
+      </span>
+    </div>
+
+    <div class="card" style="
+    background-color: #F56c6c;
+      position:absolute;
+      top:15%;
+      right:15%;
+      width: 200px;
+      height: 120px">
+       <span class="text" style="margin-top: 15px;margin-left: 10px ;width: 200px">
+        Round 1000
+      </span>
+      <span class="text" style="margin-top: 10px;margin-left: 10px;font-size: 14px">
+        &nbsp训练轮数
+      </span>
+    </div>
+
+
+      <div class="card" style="
+      position:absolute;
+      top:35%;
+      right:30%;
+      width: 200px;
+      height: 120px">
+         <span class="text" style="margin-top: 15px;margin-left: 10px ;width: 200px;color: #303133">
+        0.145
+      </span>
+        <span class="text" style="margin-top: 10px;margin-left: 10px;font-size: 14px;color: #303133">
+        &nbsp召回率/recall
+      </span>
+      </div>
+
+    <div class="card" style="
+      position:absolute;
+      top:35%;
+      right:15%;
+      width: 200px;
+      height: 120px">
+       <span class="text" style="margin-top: 15px;margin-left: 10px ;width: 200px;color: #303133">
+        0.93
+      </span>
+      <span class="text" style="margin-top: 10px;margin-left: 10px;font-size: 14px;color: #303133">
+        &nbsp准确率
+      </span>
+    </div>
+<!--    四个card end-->
+    <div id="main" class="main"></div>
     <div id="bing" class="bing"></div>
   </div>
 </template>
@@ -1139,6 +1203,34 @@ export default {
             radius: ['50%', '70%']
           }
         ],
+        graphic: { // 添加原生图形元素组件
+          elements: [{
+            type: 'text', // 组件类型
+            left: 'center', //定位
+            top: '43%', // 定位
+            style: { // 样式
+              text: '测试集', //文字
+              fontSize: 13, //文字大小
+              textAlign: 'center', //定位
+              width: 30,
+              height: 30,
+              fill: 'darkgray' // 字体颜色
+            }
+          },
+            {
+              type: 'text',
+              left: 'center',
+              top: '52%',
+              style: {
+                text: '1000例',
+                fontSize: 18,
+                textAlign: 'center',
+                width: 30,
+                height: 25,
+                fill: '#3BA5D9'
+              }
+            }]
+        },
         color: ['#3399FF', '#FF6633']
       }
       //4.渲染图表
@@ -1158,17 +1250,43 @@ export default {
   border-radius: 25px 25px 25px 25px ;
   box-shadow: 2px 2px 10px #06C;
 }
+.card{
+  padding: 10px;height: auto;margin-right: 15px;
+  border-radius: 15px 15px 15px 15px ;
+  box-shadow: 3px 3px 3px #888888;
+}
 
+.text{
+  display: flex;
+  align-items: center;
+  font-weight: 600;
+  font-size: 26px;
+  color: white;
+  font-family: "Helvetica Neue",Helvetica,"PingFang SC","Hiragino Sans GB","Microsoft YaHei","微软雅黑",Arial,sans-serif;;
+
+}
 .bing{
   position: absolute;
-  width: 600px; height: 400px;
+  width: 500px; height: 300px;
   left:200px;
-  top:550px;
+  bottom:3%;
 }
 .main{
   position: absolute;
-  width: 900px; height: 400px;
-  left:900px;
-  top:550px;
+  width: 500px; height: 300px;
+  left:850px;
+  bottom:3%;
+}
+
+.flex1{
+  position:absolute;
+  width: 500px;
+  height: 150px;
+  right:10%;
+  top:15%
+}
+
+.flex2{
+
 }
 </style>
