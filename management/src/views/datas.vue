@@ -93,11 +93,48 @@
       </el-pagination>
     </div>
 
-    <el-dialog title="收货地址" :visible.sync="isvisible">
-      <el-table :data="gridData">
-        <el-table-column property="date" label="日期" width="150"></el-table-column>
-        <el-table-column property="name" label="姓名" width="200"></el-table-column>
-        <el-table-column property="address" label="地址"></el-table-column>
+    <el-dialog title="预测详情" :visible.sync="isvisible">
+      <el-table
+          :data="predictData"
+          border
+          style="width: 100%">
+        <el-table-column
+            fixed
+            prop="date"
+            label="数据名称"
+            width="150">
+        </el-table-column>
+        <el-table-column
+            prop="name"
+            label="特征1"
+            width="120">
+        </el-table-column>
+        <el-table-column
+            prop="province"
+            label="特征2"
+            width="120">
+        </el-table-column>
+        <el-table-column
+            prop="city"
+            label="特征3"
+            width="120">
+        </el-table-column>
+        <el-table-column
+            prop="address"
+            label="特征4"
+            width="120">
+        </el-table-column>
+        <el-table-column
+            prop="zip"
+            label="特征5"
+            width="120">
+        </el-table-column>
+        <el-table-column
+            fixed="right"
+            prop="zip"
+            label="结果"
+            width="100">
+        </el-table-column>
       </el-table>
     </el-dialog>
 
