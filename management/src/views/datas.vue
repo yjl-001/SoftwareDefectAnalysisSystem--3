@@ -71,7 +71,7 @@
             查看预测结果
           </el-button>
           <el-button
-              @click="del(scope.row)"
+              @click="del(scope.$index,scope.row)"
               type="text"
               size="small">
             删除
@@ -168,14 +168,32 @@ export default {
     this.load()
   },
   methods: {
-    del(row){
-      console.log(row.datasetid)
-      request.get("/api/datasets_center/deleteHistory",{
-        params:{
-          datasetid:row.datasetid
-        }}).then(res =>{
-        console.log(res)
+    del(index,row){
+      this.$confirm("永久删除该文件, 是否继续?", "提示", {
+        confirmButtonText: "确定",
+        cancelButtonText: "取消",
+        type: "warning"
       })
+          .then(() => {
+            // 移除对应索引位置的数据，可以对row进行设置向后台请求删除数据
+            this.tableData.splice(index, 1);
+            request.get("/api/datasets_center/deleteHistory",{
+              params:{
+                datasetid:row.datasetid
+              }}).then(res =>{
+              console.log(res)
+            })
+            this.$message({
+              type: "success",
+              message: "删除成功!"
+            });
+          })
+          .catch(() => {
+            this.$message({
+              type: "info",
+              message: "已取消删除"
+            });
+          });
     },
     load(){
       request.get("/api/datasets_center/none",{
@@ -209,7 +227,7 @@ export default {
                 params:{
                   pageNum:1,
                   pageSize: 10,
-                  username:this.user.userid,
+                  username:this.user.username,
                   datasetname:this.form.datasetname,
                   datasetKind:this.form.datasetKind,
                   model:this.form.model
