@@ -100,12 +100,12 @@
           style="width: 100%">
         <el-table-column
             fixed
-            prop="date"
-            label="数据名称"
+            prop="dataid"
+            label="数据标号"
             width="150">
         </el-table-column>
         <el-table-column
-            prop="name"
+            prop="numberOfNonTrivialBugsFoundUntil"
             label="特征1"
             width="120">
         </el-table-column>
@@ -131,7 +131,7 @@
         </el-table-column>
         <el-table-column
             fixed="right"
-            prop="zip"
+            prop="predictresult"
             label="结果"
             width="100">
         </el-table-column>
@@ -154,6 +154,7 @@ export default {
       total:0,
       pageNum:1,
       PageSize:10,
+      predictData:[],
       form:{
         model:''
       },
@@ -169,8 +170,11 @@ export default {
   methods: {
     del(row){
       console.log(row.datasetid)
-      console.log(row.datasetname)
-      request.get("",).then(res =>{
+      request.get("/api/datasets_center/deleteHistory",{
+        params:{
+          datasetid:row.datasetid
+        }}).then(res =>{
+        console.log(res)
       })
     },
     load(){
@@ -190,7 +194,12 @@ export default {
       console.log(row.datasetid)
       console.log(row.datasetname)
       this.isvisible=true
-      request.get("",).then(res =>{
+      request.get("/api/datasets_center/datasetResult",{
+        params:{
+          datasetid:row.datasetid
+        }}).then(res =>{
+        console.log(res)
+        this.predictData=res.data
       })
     },
     onSubmit(){

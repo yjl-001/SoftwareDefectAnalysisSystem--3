@@ -57,6 +57,7 @@ export default {
     return {
       fileType: ["csv", "txt","xls","xlxs","jpg", "jpeg"],
       fileList:[],
+      user:{},
       form: {
         where:1,
         hq1:"",
@@ -77,6 +78,10 @@ export default {
       }],
       value: ''
     }
+  },
+  created(){
+    let userStr = sessionStorage.getItem("user")||"{}"
+    this.user=JSON.parse(userStr)
   },
   methods: {
     beforeAvatarUpload(file) {
@@ -121,6 +126,17 @@ export default {
       const formData = new FormData();
       formData.append('file', this.fileList[0].raw)
       // post地址
+      //上传
+      request.get("/api/predict/dataset",{
+        params:{
+          file:formData,
+          userid:this.user.userid,
+        }
+      }).then(res =>{
+
+      })
+
+
       console.log(this.fileList)
       this.showResult = true;
     }
