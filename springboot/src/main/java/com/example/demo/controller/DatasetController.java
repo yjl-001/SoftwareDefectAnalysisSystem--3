@@ -52,8 +52,12 @@ public class DatasetController {
         queryWrapper2.eq("datasetid",datasetid);
         int i2 = datasetMapper.delete(queryWrapper2);
 
+        System.out.println(i1);
+        System.out.println(i2);
+        System.out.println(i3);
 
-        if (i1==1 && i2==1 && i3==1){
+
+        if (i1!=0 && i2!=0 && i3!=0){
             return Result.success();
         }else{
             return Result.error("0","删除失败");

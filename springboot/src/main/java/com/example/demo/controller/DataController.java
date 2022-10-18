@@ -105,14 +105,57 @@ public class DataController {
     }
 
     @RequestMapping("/dataset")
-    public Result<?> dataset(@RequestParam MultipartFile file) throws IOException {
+    public Result<?> dataset(@RequestParam MultipartFile file,
+                             @RequestParam Integer userid,
+                             @RequestParam String model) throws IOException {
+        Dataset dataset = new Dataset();
+        UserDataset userDataset = new UserDataset();
+
         String filename = file.getOriginalFilename();
-        String type= filename.substring(filename.lastIndexOf(".")+1);
+        int index = filename.lastIndexOf(".");
+        String type= filename.substring(index+1);
         BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(file.getInputStream()));
+        String names = bufferedReader.readLine();
+
+        dataset.setDatasetKind(type);
+        dataset.setDatasetname(filename.substring(0,index));
+        Date date = new Date();
+        java.sql.Date date1 = new java.sql.Date(date.getYear(),date.getMonth(),date.getDay());
+        dataset.setUploadtime(date1);
+        dataset.setModel(model);
+        dataset.setIsdataset(1);
+
+        int i1 = datasetMapper.insert(dataset);
+
+        QueryWrapper<Dataset> wrapper = new QueryWrapper<>();
+        wrapper.select("max(datasetid) as datasetid");
+        Dataset dataset1 = datasetMapper.selectOne(wrapper);
+        userDataset.setDatasetid(dataset1.getDatasetid());
+        userDataset.setUserid(userid);
+
+        int i2 = userDatasetMapper.insert(userDataset);
+
+        int modelid;
+        if (model.equals("svm")){
+            modelid = 1;
+        }else {
+            modelid = 0;
+        }
+
         String lineTxt;
         while ((lineTxt=bufferedReader.readLine())!=null){
-            System.out.println(lineTxt);
+            String[] strarr =lineTxt.split(",");
+            double[] doubles = new double[strarr.length-1];
+            for (int i = 0;i<strarr.length-1;i++){
+                doubles[i] = Double.valueOf(strarr[i]);
+            }
+            dataMapper.insertOne(dataset1.getDatasetid(),model,userid,doubles[0],doubles[1],doubles[2],doubles[3],doubles[4],
+                    doubles[5],doubles[6],doubles[7],doubles[8],doubles[9],Predict.predict(modelid,doubles));
         }
-        return Result.success();
+
+        if (i1 != 0 && i2 !=0 ){
+            return Result.success();
+        }else
+            return Result.error("0","错啦");
     }
 }
