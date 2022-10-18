@@ -2,13 +2,12 @@ package com.example.demo.controller;
 
 import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.example.demo.common.Result;
-import com.example.demo.entity.Dataset;
-import com.example.demo.entity.Search;
-import com.example.demo.entity.UserDataset;
-import com.example.demo.entity.UserInfo;
+import com.example.demo.entity.*;
+import com.example.demo.mapper.DataMapper;
 import com.example.demo.mapper.DatasetMapper;
 import com.example.demo.mapper.UserDatasetMapper;
 import com.example.demo.mapper.UserInfoMapper;
@@ -30,6 +29,38 @@ public class DatasetController {
     @Resource
     UserDatasetMapper userDatasetMapper;
 
+    @Resource
+    DataMapper dataMapper;
+
+    @RequestMapping(value = "/datasetResult")
+    public Result<?> result(@RequestParam Integer datasetid){
+        LambdaQueryWrapper<Data> wrapper = Wrappers.<Data>lambdaQuery().eq(Data::getDatasetid,datasetid);
+        List<Data> datas = dataMapper.selectList(wrapper);
+
+        return Result.success(datas);
+    }
+
+    @RequestMapping(value = "/deleteHistory")
+    public Result<?> del(@RequestParam Integer datasetid){
+        QueryWrapper<Data> queryWrapper = new QueryWrapper<>();
+        queryWrapper.eq("datasetid",datasetid);
+        int i1 = dataMapper.delete(queryWrapper);
+        QueryWrapper<UserDataset> queryWrapper1 = new QueryWrapper<>();
+        queryWrapper1.eq("datasetid",datasetid);
+        int i3 = userDatasetMapper.delete(queryWrapper1);
+        QueryWrapper<Dataset> queryWrapper2 = new QueryWrapper<>();
+        queryWrapper2.eq("datasetid",datasetid);
+        int i2 = datasetMapper.delete(queryWrapper2);
+
+
+        if (i1==1 && i2==1 && i3==1){
+            return Result.success();
+        }else{
+            return Result.error("0","删除失败");
+        }
+
+    }
+
     @RequestMapping(value = "/search")
     public Result<?> queryDataset(@RequestParam(defaultValue = "1") Integer pageNum,
                                   @RequestParam(defaultValue = "10") Integer pageSize,
@@ -47,9 +78,8 @@ public class DatasetController {
         for (int i =0;i<datasets.size();i++){
             datasetIDs.add(datasets.get(i).getDatasetid());
         }
-        datasetIDs.add(-1);
         System.out.println(search);
-        if (search == null){
+        if (!StrUtil.isNotBlank(search.getDatasetname()) && !StrUtil.isNotBlank(search.getDatasetKind()) && !StrUtil.isNotBlank(search.getModel())){
             System.out.println("aaaaaaaaaa");
             LambdaQueryWrapper<Dataset> wrapper3 = Wrappers.<Dataset>lambdaQuery().orderByAsc(Dataset::getDatasetname);
             wrapper3.in(Dataset::getDatasetid,datasetIDs);
@@ -91,7 +121,6 @@ public class DatasetController {
         for (int i =0;i<datasets.size();i++){
             datasetIDs.add(datasets.get(i).getDatasetid());
         }
-        datasetIDs.add(-1);
             LambdaQueryWrapper<Dataset> wrapper3 = Wrappers.<Dataset>lambdaQuery().orderByAsc(Dataset::getDatasetname);
             wrapper3.in(Dataset::getDatasetid,datasetIDs);
             Page<Dataset> datasetPage = datasetMapper.selectPage(new Page<>(pageNum,pageSize),wrapper3);

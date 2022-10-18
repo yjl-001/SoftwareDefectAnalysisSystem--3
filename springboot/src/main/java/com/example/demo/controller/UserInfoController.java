@@ -34,7 +34,7 @@ public class UserInfoController {
             return Result.error("1","用户名或密码错误");
 
         }else {
-            return Result.success(userInfo);
+            return Result.success(userInfo1);
         }
     }
 

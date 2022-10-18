@@ -1,15 +1,27 @@
 package com.example.demo.controller;
 
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.example.demo.Utils.Predict;
 import com.example.demo.common.Result;
 import com.example.demo.entity.Data;
+import com.example.demo.entity.Dataset;
+import com.example.demo.entity.UserDataset;
+import com.example.demo.entity.UserInfo;
 import com.example.demo.mapper.DataMapper;
+import com.example.demo.mapper.DatasetMapper;
+import com.example.demo.mapper.UserDatasetMapper;
+import com.example.demo.mapper.UserInfoMapper;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.annotation.Resource;
+import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStreamReader;
+import java.util.Date;
 
 @RestController
 @CrossOrigin
@@ -18,6 +30,12 @@ public class DataController {
 
     @Resource
     DataMapper dataMapper;
+
+    @Resource
+    UserDatasetMapper userDatasetMapper;
+
+    @Resource
+    DatasetMapper datasetMapper;
 
 //    @RequestParam(defaultValue = "svm") String model,
 //    @RequestParam(defaultValue = "1") double numberOfNonTrivialBugsFoundUntil,
@@ -38,20 +56,63 @@ public class DataController {
         System.out.println(data.getModel());
         System.out.println(data.getNumberOfNonTrivialBugsFoundUntil());
         if (data.getModel().equals("svm")){
-            dataMapper.insertOne(-1,"svm",1,pre[0],pre[1],pre[2],pre[3],pre[4],pre[5],pre[6],pre[7],pre[8],pre[9],Predict.predict(1,pre));
+            Dataset dataset = new Dataset();
+            dataset.setDatasetKind("single");
+            dataset.setModel("svm");
+            dataset.setDatasetname("single");
+            dataset.setIsdataset(0);
+            Date date = new Date();
+            java.sql.Date date1 = new java.sql.Date(date.getYear(),date.getMonth(),date.getDay());
+            dataset.setUploadtime(date1);
+            datasetMapper.insert(dataset);
+            QueryWrapper<Dataset> wrapper = new QueryWrapper<>();
+            wrapper.select("max(datasetid) as datasetid");
+            Dataset dataset1 = datasetMapper.selectOne(wrapper);
+
+
+            int datasetid = dataset1.getDatasetid();
+            UserDataset userDataset = new UserDataset();
+            userDataset.setUserid(data.getUserid());
+            userDataset.setDatasetid(datasetid);
+            userDatasetMapper.insert(userDataset);
+            dataMapper.insertOne(datasetid,"svm",1,pre[0],pre[1],pre[2],pre[3],pre[4],pre[5],pre[6],pre[7],pre[8],pre[9],Predict.predict(1,pre));
             return Result.success(Predict.predict(1,pre));
         }else {
+            Dataset dataset = new Dataset();
+            dataset.setDatasetKind("single");
+            dataset.setModel("logistic");
+            dataset.setDatasetname("single");
+            dataset.setIsdataset(0);
+            Date date = new Date();
+            java.sql.Date date1 = new java.sql.Date(date.getYear(),date.getMonth(),date.getDay());
+            dataset.setUploadtime(date1);
+            datasetMapper.insert(dataset);
+            QueryWrapper<Dataset> wrapper = new QueryWrapper<>();
+            wrapper.select("max(datasetid) as datasetid");
+            Dataset dataset1 = datasetMapper.selectOne(wrapper);
+
+
+            int datasetid = dataset1.getDatasetid();
+            UserDataset userDataset = new UserDataset();
+            userDataset.setUserid(data.getUserid());
+            userDataset.setDatasetid(datasetid);
+            userDatasetMapper.insert(userDataset);
             System.out.println(pre[0]);
-            dataMapper.insertOne(-1,"logistic",1,pre[0],pre[1],pre[2],pre[3],pre[4],pre[5],pre[6],pre[7],pre[8],pre[9],Predict.predict(0,pre));
+            dataMapper.insertOne(datasetid,"logistic",1,pre[0],pre[1],pre[2],pre[3],pre[4],pre[5],pre[6],pre[7],pre[8],pre[9],Predict.predict(0,pre));
             return Result.success(Predict.predict(0,pre));
         }
 
     }
 
-    @RequestMapping("dataset")
-    public Result<?> dataset(@RequestParam MultipartFile file){
+    @RequestMapping("/dataset")
+    public Result<?> dataset(@RequestParam MultipartFile file) throws IOException {
         String filename = file.getOriginalFilename();
         String type= filename.substring(filename.lastIndexOf(".")+1);
+        BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(file.getInputStream()));
+        String lineTxt;
+        while ((lineTxt=bufferedReader.readLine())!=null){
+            System.out.println(lineTxt);
+        }
         return Result.success();
     }
 }

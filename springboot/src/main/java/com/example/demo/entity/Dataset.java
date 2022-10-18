@@ -15,4 +15,5 @@ public class Dataset {
     private Date uploadtime;
     private String datasetKind;
     private String model;
+    private int isdataset;
 }
