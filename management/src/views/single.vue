@@ -14,6 +14,15 @@
             <el-option label="支撑向量机" value="svm"></el-option>
           </el-select>
         </el-form-item>
+
+        <el-form-item label="特征指标选择" >
+          <el-select v-model="form.quota" placeholder="请选择">
+            <el-option label="CNN" value="cnn"></el-option>
+            <el-option label="BBC" value="bbc"></el-option>
+            <el-option label="Times" value="times"></el-option>
+          </el-select>
+        </el-form-item>
+
         <el-form-item label="特征1">
           <el-input v-model="form.numberOfNonTrivialBugsFoundUntil" style="width: 200px">
           </el-input>
@@ -89,6 +98,11 @@
           </el-input>
         </el-form-item>
 
+        <el-form-item label="多出来的特征" v-if="form.quota=='cnn'" style="width: 200px">
+          <el-input v-model="form.extra"  style="width: 200px">
+          </el-input>
+        </el-form-item>
+
       </el-form>
 
       <el-dialog
@@ -115,7 +129,8 @@ export default {
       dialogVisible: false,
       result:'',
       form: {
-        model:'',
+        model:'logistic',
+        quota:'cnn',
       },
     }
   },

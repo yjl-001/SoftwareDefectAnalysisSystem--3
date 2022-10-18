@@ -6,9 +6,11 @@ import com.example.demo.common.Result;
 import com.example.demo.entity.Data;
 import com.example.demo.mapper.DataMapper;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.annotation.Resource;
 import java.io.IOException;
+import java.io.InputStream;
 
 @RestController
 @CrossOrigin
@@ -46,4 +48,5 @@ public class DataController {
         }
 
     }
+    
 }
