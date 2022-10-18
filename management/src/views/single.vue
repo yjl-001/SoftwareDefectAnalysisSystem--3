@@ -128,20 +128,24 @@ export default {
     return {
       dialogVisible: false,
       result:'',
+      user:{},
       form: {
+        userid:'',
         model:'logistic',
         quota:'cnn',
       },
     }
   },
-  mounted(){
-
+  created(){
+    let userStr = sessionStorage.getItem("user")||"{}"
+    this.user=JSON.parse(userStr)
   },
   methods: {
 
     onSubmit() {
       console.log('submit!');
       console.log(this.form);
+      this.form.userid=this.user.userid,
         //上传
         request.post("/api/predict/single",this.form).then(res =>{
           console.log(res.data)

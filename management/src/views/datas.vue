@@ -13,14 +13,15 @@
         </el-form-item>
         <el-form-item label="数据格式" style="font-weight: bolder">
           <el-select v-model="form.datasetKind" placeholder="数据格式">
+            <el-option label="不指定" value=""></el-option>
             <el-option label="单条数据" value="single"></el-option>
             <el-option label=".txt" value="txt"></el-option>
             <el-option label=".csv" value="csv"></el-option>
-            <el-option label=".data" value="data"></el-option>
           </el-select>
         </el-form-item>
         <el-form-item label="使用模型" style="font-weight: bolder">
           <el-select v-model="form.model" placeholder="使用模型">
+            <el-option label="不指定" value=""></el-option>
             <el-option label="逻辑回归" value="logistic"></el-option>
             <el-option label="支持向量机" value="svm"></el-option>
           </el-select>
@@ -92,6 +93,13 @@
       </el-pagination>
     </div>
 
+    <el-dialog title="收货地址" :visible.sync="isvisible">
+      <el-table :data="gridData">
+        <el-table-column property="date" label="日期" width="150"></el-table-column>
+        <el-table-column property="name" label="姓名" width="200"></el-table-column>
+        <el-table-column property="address" label="地址"></el-table-column>
+      </el-table>
+    </el-dialog>
 
 
   </div>
@@ -104,6 +112,7 @@ import request from "@/utils/request";
 export default {
   data(){
     return{
+      isvisible:false,
       user:{},
       total:0,
       pageNum:1,
@@ -122,6 +131,10 @@ export default {
   },
   methods: {
     del(row){
+      console.log(row.datasetid)
+      console.log(row.datasetname)
+      request.get("",).then(res =>{
+      })
     },
     load(){
       request.get("/api/datasets_center/none",{
@@ -136,10 +149,12 @@ export default {
         this.total=res.data.total
       })
     },
-    sign_contract(name) {
-      // rows.splice(index, 1);
-      this.dialogFormVisible = true
-      this.signdata=JSON.parse(JSON.stringify(name))
+    sign_contract(row) {
+      console.log(row.datasetid)
+      console.log(row.datasetname)
+      this.isvisible=true
+      request.get("",).then(res =>{
+      })
     },
     onSubmit(){
       console.log(this.form),
@@ -148,7 +163,7 @@ export default {
                 params:{
                   pageNum:1,
                   pageSize: 10,
-                  username:this.user.username,
+                  username:this.user.userid,
                   datasetname:this.form.datasetname,
                   datasetKind:this.form.datasetKind,
                   model:this.form.model
@@ -176,4 +191,8 @@ export default {
   border-radius: 25px 25px 25px 25px ;
   box-shadow: 2px 2px 10px #06C;
 }
+.box-card {
+  width: 480px;
+}
+
 </style>

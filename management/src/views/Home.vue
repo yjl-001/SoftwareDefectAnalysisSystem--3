@@ -2,7 +2,7 @@
 <template style="background-color: royalblue" >
 
   <div class="body">
-    <div><p style="font-size: 200%;color: #409EFF;font-weight: bolder;margin-top: 20px;margin-left: 60px">
+    <div><p style="font-size: 200%;color: #409EFF;font-weight: bolder;margin-top: 50px;margin-left: 60px">
       基于机器学习的缺陷预测系统
     </p>
       <p style="font-size: 100%;color: darkgray;font-weight: bolder;margin-left: 60px;margin-top: 20px">
@@ -13,14 +13,23 @@
       <p>登录时间：2022-10-06 10:20</p>
     </div>
 
-    <div>
-<!--      <el-image style="margin-left: 60px;height: 400px;margin-top:20px " :src="require('D:\\JetBrainsCode\\WebStormProjects\\Vue\\management\\resources\\back1.png')" ></el-image>-->
+<!--    <div>-->
+<!--      <el-image style="margin-left: 60px;height: 400px;margin-top:80px " :src="require('../assets/back1.png')" ></el-image>-->
+<!--    </div>-->
 
+    <div class="block">
+      <el-carousel height="300px">
+        <el-carousel-item v-for="item in 4" :key="item">
+          <h3 class="small">{{ item }}</h3>
+        </el-carousel-item>
+      </el-carousel>
     </div>
+
+
     <div class="div_abs">
       <el-button type="primary" icon="el-icon-document" round class="bt_main"style="margin-left: 10px;font-size: 150%;font-weight: bolder" @click="$router.push('/write')">单样本预测</el-button>
       <el-button  type="danger" icon="el-icon-document-copy" round class="bt_main" style="margin: 10px;font-size: 150%;font-weight: bolder" @click="$router.push('/sign')">数据集预测</el-button>
-      <el-button  type="success" icon="el-icon-coordinate" round class="bt_main" style="font-size: 150%;font-weight: bolder">模型展示</el-button>
+      <el-button  type="success" icon="el-icon-coordinate" round class="bt_main"  style="font-size: 150%;font-weight: bolder"@click="$router.push('/model')" >模型展示</el-button>
       <el-button  type="warning" icon="el-icon-refresh-left" round class="bt_main" style="font-size: 150%;font-weight: bolder" @click="$router.push('/datas')" >预测记录</el-button>
     </div>
   </div>
@@ -41,12 +50,17 @@ export default {
 }
 </script>
 <style>
+.block{
+  width: 500px;
+  position: absolute;
+  left: 20%;
+  top:40%;
+}
 .el-carousel__item h3 {
   color: #475669;
-  font-size: 18px;
+  font-size: 14px;
   opacity: 0.75;
-  line-height: 300px;
-  width: 200px;
+  line-height: 150px;
   margin: 0;
 }
 
@@ -57,6 +71,7 @@ export default {
 .el-carousel__item:nth-child(2n+1) {
   background-color: #d3dce6;
 }
+
 
 .div_abs{
   width:700px;

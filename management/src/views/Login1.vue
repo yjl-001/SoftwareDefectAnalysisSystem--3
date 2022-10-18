@@ -34,7 +34,7 @@ export default {
     login(){
       request.post("/api/user/login",this.user).then(res =>{
         if(res.code === '0'){
-          console.log(res),
+          console.log(res.data),
           console.log("success"),sessionStorage.setItem("user",JSON.stringify(res.data)),
           this.$router.push("/write"),
 
