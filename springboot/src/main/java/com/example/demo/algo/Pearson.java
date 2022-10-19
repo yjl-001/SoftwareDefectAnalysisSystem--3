@@ -1,8 +1,8 @@
-package com.example.rjqxanalyzation.alog;
+package com.example.demo.algo;
 
-import com.example.rjqxanalyzation.Utils.DataOperation;
+import com.example.demo.Utils.DataOperation;
 import com.example.rjqxanalyzation.Utils.LoadData;
-import com.example.rjqxanalyzation.Utils.LoadSVMData;
+import com.example.demo.Utils.LoadSVMData;
 
 import java.io.IOException;
 import java.util.List;

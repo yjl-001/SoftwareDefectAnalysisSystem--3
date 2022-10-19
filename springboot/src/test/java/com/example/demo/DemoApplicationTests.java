@@ -28,9 +28,9 @@ class DemoApplicationTests {
 				// 用来设置邮件信息
 				SimpleMailMessage simpleMailMessage = new SimpleMailMessage();
 				// 设置邮件标题
-				simpleMailMessage.setSubject("你好，你的登录验证码");
+				simpleMailMessage.setSubject("宝");
 				// 设置邮件内容
-				simpleMailMessage.setText("您收到的验证码是：" + code+"收到请回复");
+				simpleMailMessage.setText("宝你怎么不回我");
 				// 设置源邮箱
 				simpleMailMessage.setFrom(from);
 				// 设置目的邮箱

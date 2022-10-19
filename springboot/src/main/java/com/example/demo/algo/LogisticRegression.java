@@ -1,6 +1,6 @@
-package com.example.rjqxanalyzation.alog;
+package com.example.demo.algo;
 
-import com.example.rjqxanalyzation.Utils.DataOperation;
+import com.example.demo.Utils.DataOperation;
 import com.example.rjqxanalyzation.Utils.LoadData;
 
 import java.io.*;
