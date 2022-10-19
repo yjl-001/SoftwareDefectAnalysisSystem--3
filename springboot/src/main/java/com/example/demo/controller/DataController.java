@@ -104,7 +104,7 @@ public class DataController {
 
     }
 
-    @RequestMapping("/dataset")
+    @PostMapping ("/dataset")
     public Result<?> dataset(@RequestParam MultipartFile file,
                              @RequestParam Integer userid,
                              @RequestParam String model) throws IOException {

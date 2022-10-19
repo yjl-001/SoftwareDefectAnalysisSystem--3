@@ -32,7 +32,7 @@ export default {
       this.$router.replace('/register')
     } ,
     login(){
-      request.post("/api/user/login",this.user).then(res =>{
+      request.post("/api/user/login", this.user,{header:{'Content-Type':'application/json;charset=utf-8'}},).then(res =>{
         if(res.code === '0'){
           console.log(res.data),
           console.log("success"),sessionStorage.setItem("user",JSON.stringify(res.data)),
