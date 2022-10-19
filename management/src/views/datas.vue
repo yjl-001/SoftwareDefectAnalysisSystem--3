@@ -93,7 +93,7 @@
       </el-pagination>
     </div>
 
-    <el-dialog title="预测详情" :visible.sync="isvisible">
+    <el-dialog title="数据预测详情" :visible.sync="isvisible">
       <el-table
           :data="predictData"
           border
@@ -133,6 +133,14 @@
             fixed="right"
             prop="predictresult"
             label="结果"
+            :filters="[{ text: '通过', value: 'clean' }, { text: '异常', value: 'buggy' }]"
+            :filter-method="filterTag"
+            filter-placement="bottom-end">
+          <template slot-scope="scope">
+            <el-tag
+                :type="scope.row.predictresult === 'clean' ? 'success' : 'danger'"
+                disable-transitions>{{scope.row.predictresult}}</el-tag>
+          </template>
             width="100">
         </el-table-column>
       </el-table>
@@ -168,6 +176,9 @@ export default {
     this.load()
   },
   methods: {
+    filterTag(value, row) {
+      return row.predictresult === value;
+    },
     del(index,row){
       this.$confirm("永久删除该文件, 是否继续?", "提示", {
         confirmButtonText: "确定",
