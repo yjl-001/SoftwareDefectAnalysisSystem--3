@@ -21,7 +21,9 @@ import javax.annotation.Resource;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 @RestController
 @CrossOrigin
@@ -75,8 +77,8 @@ public class DataController {
             userDataset.setUserid(data.getUserid());
             userDataset.setDatasetid(datasetid);
             userDatasetMapper.insert(userDataset);
-            dataMapper.insertOne(datasetid,"svm",1,pre[0],pre[1],pre[2],pre[3],pre[4],pre[5],pre[6],pre[7],pre[8],pre[9],Predict.predict(1,pre));
-            return Result.success(Predict.predict(1,pre));
+            dataMapper.insertOne(datasetid,"svm",1,pre[0],pre[1],pre[2],pre[3],pre[4],pre[5],pre[6],pre[7],pre[8],pre[9],Predict.predict(1,1,pre));
+            return Result.success(Predict.predict(1,1,pre));
         }else {
             Dataset dataset = new Dataset();
             dataset.setDatasetKind("single");
@@ -98,8 +100,8 @@ public class DataController {
             userDataset.setDatasetid(datasetid);
             userDatasetMapper.insert(userDataset);
             System.out.println(pre[0]);
-            dataMapper.insertOne(datasetid,"logistic",1,pre[0],pre[1],pre[2],pre[3],pre[4],pre[5],pre[6],pre[7],pre[8],pre[9],Predict.predict(0,pre));
-            return Result.success(Predict.predict(0,pre));
+            dataMapper.insertOne(datasetid,"logistic",1,pre[0],pre[1],pre[2],pre[3],pre[4],pre[5],pre[6],pre[7],pre[8],pre[9],Predict.predict(0,1,pre));
+            return Result.success(Predict.predict(0,1,pre));
         }
 
     }
@@ -142,6 +144,8 @@ public class DataController {
             modelid = 0;
         }
 
+        List<Data> data = new ArrayList<>();
+
         String lineTxt;
         while ((lineTxt=bufferedReader.readLine())!=null){
             String[] strarr =lineTxt.split(",");
@@ -150,11 +154,15 @@ public class DataController {
                 doubles[i] = Double.valueOf(strarr[i]);
             }
             dataMapper.insertOne(dataset1.getDatasetid(),model,userid,doubles[0],doubles[1],doubles[2],doubles[3],doubles[4],
-                    doubles[5],doubles[6],doubles[7],doubles[8],doubles[9],Predict.predict(modelid,doubles));
+                    doubles[5],doubles[6],doubles[7],doubles[8],doubles[9],Predict.predict(modelid,1,doubles));
+            QueryWrapper<Data> queryWrapper = new QueryWrapper<>();
+            queryWrapper.select("max(dataid) as dataid");
+            Data data1 = dataMapper.selectOne(queryWrapper);
+            data.add(data1);
         }
 
         if (i1 != 0 && i2 !=0 ){
-            return Result.success();
+            return Result.success(data);
         }else
             return Result.error("0","错啦");
     }
