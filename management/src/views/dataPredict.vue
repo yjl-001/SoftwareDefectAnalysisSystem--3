@@ -9,24 +9,21 @@
 
     <el-form ref="form" :model="form" label-width="80px" style="margin: 20px;font-weight: bold">
       <el-form-item label="模型选择" >
-        <el-select v-model="value" placeholder="请选择">
-          <el-option
-              v-for="item in options"
-              :key="item.value"
-              :label="item.label"
-              :value="item.value">
-          </el-option>
+        <el-select v-model="form.model" placeholder="请选择">
+          <el-option label="逻辑回归" value="logistic"></el-option>
+          <el-option label="支撑向量机" value="svm"></el-option>
         </el-select>
       </el-form-item>
             <el-form-item label="上传附件">
               <el-upload
                   size="small"
                   class="upload-demo"
+                  headers="Content-Type': 'multipart/form-data"
                   drag
                   :on-change="handleChange"
                   :file-list="fileList"
-                  action=''
-                  :auto-upload='true'
+                  action='/api/predict/dataset'
+                  :auto-upload='false'
                   :before-upload="beforeAvatarUpload"
               >
                 <i class="el-icon-upload"></i>
@@ -59,24 +56,7 @@ export default {
       fileList:[],
       user:{},
       form: {
-        where:1,
-        hq1:"",
-        hq2:"",
-        dg1:"",
-        dg2:"",
-        sp1:"",
-        sp2:"",
-        qd1:"",
-        qd2:"",
       },
-      options: [{
-        value: 'logistic',
-        label: '逻辑回归'
-      }, {
-        value: 'svm',
-        label: '支撑向量机'
-      }],
-      value: ''
     }
   },
   created(){
@@ -119,25 +99,23 @@ export default {
       this.fileList = [file]
     },
     onSubmit() {
+      console.log(this.fileList)
+      console.log(this.form.model)
       if(this.fileList.length <= 0){
         this.$message.error('请选择文件');
         return
       }
       const formData = new FormData();
       formData.append('file', this.fileList[0].raw)
+      formData.append('userid', this.user.userid)
+      formData.append('model', this.form.model)
+      console.log(formData)
       // post地址
       //上传
-      request.get("/api/predict/dataset",{
-        params:{
-          file:formData,
-          userid:this.user.userid,
-        }
-      }).then(res =>{
 
+      request.post("/api/predict/dataset",formData,{header:{'Content-Type':'multipart/form-data'}}).then(res =>{
       })
 
-
-      console.log(this.fileList)
       this.showResult = true;
     }
   }
