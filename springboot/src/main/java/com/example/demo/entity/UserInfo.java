@@ -14,6 +14,7 @@ public class UserInfo {
     private String email;
     private String job;
     private Date birthday;
+    private String sex;
     private String phone;
     private String verifying;
 }

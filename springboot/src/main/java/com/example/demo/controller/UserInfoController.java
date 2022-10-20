@@ -1,12 +1,15 @@
 package com.example.demo.controller;
 
+import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.core.conditions.Wrapper;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
 import com.baomidou.mybatisplus.core.toolkit.ObjectUtils;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.example.demo.entity.UserInfo;
 import com.example.demo.mapper.UserInfoMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.jdbc.object.UpdatableSqlQuery;
 import org.springframework.mail.MailException;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
@@ -72,6 +75,77 @@ public class UserInfoController {
         }
 
     }
+
+    @RequestMapping("/alterEmail")
+    public Result<?> alterE(@RequestParam int userid,
+                            @RequestParam String oldEmail,
+                            @RequestParam String newEmail){
+        LambdaQueryWrapper<UserInfo> wrapper = Wrappers.<UserInfo>lambdaQuery().eq(UserInfo::getUserid,userid);
+        UserInfo userInfo = userInfoMapper.selectOne(wrapper);
+        if (userInfo.getEmail().equals(oldEmail)){
+            userInfo.setEmail(newEmail);
+            UpdateWrapper<UserInfo> updateWrapper = new UpdateWrapper<>();
+            updateWrapper.eq("userid",userInfo.getUserid());
+            userInfoMapper.update(userInfo,updateWrapper);
+            return Result.success();
+        }else {
+            return Result.error("0","邮箱错误");
+        }
+    }
+
+    @RequestMapping("/alterPassword")
+    public Result<?> alterP(@RequestParam(defaultValue = "3") int userid,
+                            @RequestParam(defaultValue = "sda") String oldPassword,
+                            @RequestParam(defaultValue = "gaile") String newPassword){
+        LambdaQueryWrapper<UserInfo> wrapper = Wrappers.<UserInfo>lambdaQuery().eq(UserInfo::getUserid,userid);
+        UserInfo userInfo = userInfoMapper.selectOne(wrapper);
+        if (userInfo.getPassword().equals(oldPassword)){
+            userInfo.setPassword(newPassword);
+            UpdateWrapper<UserInfo> updateWrapper = new UpdateWrapper<>();
+            updateWrapper.eq("userid",userInfo.getUserid());
+            userInfoMapper.update(userInfo,updateWrapper);
+            return Result.success();
+        }else {
+            return Result.error("0","密码错误");
+        }
+    }
+
+    @RequestMapping("/alterInfo")
+    public Result<?> alterI(@RequestParam(defaultValue = "") int userid,
+                            @RequestParam(defaultValue = "") String name,
+                            @RequestParam(defaultValue = "") String number,
+                            @RequestParam(defaultValue = "") String sex,
+                            @RequestParam(defaultValue = "") String job){
+        if (StrUtil.isNotBlank(name) || StrUtil.isNotBlank(number) || StrUtil.isNotBlank(sex) || StrUtil.isNotBlank(job)){
+
+        }else {
+            return Result.error("0","啥也没填改啥呢！");
+        }
+        LambdaQueryWrapper<UserInfo> wrapper = Wrappers.<UserInfo>lambdaQuery().eq(UserInfo::getUserid,userid);
+        UserInfo userInfo = userInfoMapper.selectOne(wrapper);
+        if (StrUtil.isNotBlank(name)){
+            userInfo.setUsername(name);
+        }
+        if (StrUtil.isNotBlank(number)){
+            userInfo.setPhone(number);
+        }
+        if (StrUtil.isNotBlank(sex)){
+            if (sex == "man" || sex=="woman"){
+                userInfo.setSex(sex);
+            }else {
+                return Result.error("0","性别为man或woman");
+            }
+        }
+        if (StrUtil.isNotBlank(job)){
+            userInfo.setJob(job);
+        }
+        UpdateWrapper<UserInfo> updateWrapper = new UpdateWrapper<>();
+        updateWrapper.eq("userid",userInfo.getUserid());
+        userInfoMapper.update(userInfo,updateWrapper);
+        return Result.success();
+
+    }
+
     @RequestMapping("/hello")
     public String hello() throws IOException {
         System.out.println("hello");

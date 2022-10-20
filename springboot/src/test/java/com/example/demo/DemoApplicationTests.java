@@ -30,7 +30,7 @@ class DemoApplicationTests {
 				// 设置邮件标题
 				simpleMailMessage.setSubject("宝");
 				// 设置邮件内容
-				simpleMailMessage.setText("宝你怎么不回我");
+				simpleMailMessage.setText("看我头像");
 				// 设置源邮箱
 				simpleMailMessage.setFrom(from);
 				// 设置目的邮箱
@@ -50,7 +50,7 @@ class DemoApplicationTests {
 		public void test1() {
 			// 设置验证码，可以自己随机生成
 			String code = "011635";
-			boolean b = sendEmailCode(code, "cyjshw@163.com", "188435000@qq.com");
+			boolean b = sendEmailCode(code, "cyjshw@163.com", "3152525736@qq.com");
 		}
 
 

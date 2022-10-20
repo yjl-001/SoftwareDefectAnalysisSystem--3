@@ -6,6 +6,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 @TableName("data")
 @lombok.Data
 public class Data {
+    /**
+     * 模式CVS
+     */
     private int userid;
     private int dataid;
     private int datasetid;
