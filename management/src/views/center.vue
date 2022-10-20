@@ -49,15 +49,16 @@
 </template>
 
 <script>
+import request from "@/utils/request";
+
 import CustomerInfo from '@/components/CustomerInfo.vue';
 import Nav_ from "@/components/Nav_.vue";
 import SettingMail from '@/components/SettingMail.vue';
 import SettingPassword from '@/components/SettingPassword.vue';
 import SettingMsg from '@/components/SettingMsg.vue';
 import SettingButton from '@/components/SettingButton.vue';
-
-
 import Announcement from '@/components/Announcement.vue';
+
 export default {
   name: "center.vue",
   components: {
@@ -85,6 +86,11 @@ export default {
         net_verified: '身份证号码与姓名一致',
       }
     }
+  },
+  created(){
+    let userStr = sessionStorage.getItem("user")||"{}"
+    this.user=JSON.parse(userStr)
+    this.load()
   },
   methods: {
   }

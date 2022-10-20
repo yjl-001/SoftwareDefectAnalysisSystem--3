@@ -1,6 +1,6 @@
 <template>
   <div>
-    <button @click="handleClick">
+    <button class="operate-button" @click="handleClick">
       <img :src="resolve_img_url(icon_src)" alt />
       <p>{{title}}</p>
     </button>
@@ -8,7 +8,7 @@
       <span>确定退出登录？</span>
       <span slot="footer" class="dialog-footer">
         <el-button @click="dialogVisible = false">取 消</el-button>
-        <el-button @click="confirmLogout">确 定</el-button>
+        <el-button type="primary" @click="confirmLogout">确 定</el-button>
       </span>
     </el-dialog>
   </div>
@@ -43,7 +43,7 @@ export default {
 </script>
 
 <style scoped>
-button {
+.operate-button {
   background-color: white;
   display: flex;
   padding: 8px 50px 8px 50px;
@@ -51,12 +51,12 @@ button {
   border: 1px solid #ddd;
 }
 
-button img {
+.operate-button img {
   width: 58px;
   height: 58px;
 }
 
-button p {
+.operate-button p {
   width: 90px;
   text-align: center;
   height: 58px;

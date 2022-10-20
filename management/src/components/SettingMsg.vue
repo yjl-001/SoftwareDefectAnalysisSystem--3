@@ -1,6 +1,6 @@
 <template>
   <div>
-    <button @click="handleClick">
+    <button class="operate-button" @click="handleClick">
       <img :src="resolve_img_url(icon_src)" alt />
       <p>{{title}}</p>
     </button>
@@ -24,13 +24,13 @@
         <el-form-item label="手机号" prop="number">
           <el-input v-model="ruleForm.number"></el-input>
         </el-form-item>
-        <el-form-item label="工作" prop="job">
+        <el-form-item label="工作" prop="idNumber">
           <el-input v-model="ruleForm.job"></el-input>
         </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
         <el-button @click="dialogFormVisible = false">取 消</el-button>
-        <el-button @click="confirmUpdate('ruleForm')">确 定</el-button>
+        <el-button type="primary" @click="confirmUpdate('ruleForm')">确 定</el-button>
       </div>
     </el-dialog>
   </div>
@@ -81,7 +81,7 @@ export default {
         if (valid) {
           // 校验通过
           request
-            .post("/api/info_center/alterInfo", {
+            .post("/api/user/alterInfo", {
               params: {
                 userid: this.user.userid,
                 name: this.ruleForm.name,
@@ -92,7 +92,12 @@ export default {
             })
             .then((res) => {
               if (res.code === "0") {
-                console.log(res.data);
+                console.log(res.data),
+                    this.dialogFormVisible = false,
+                    this.$message({
+                      type:"success",
+                      message:"修改成功",
+                    })
               } else {
                 console.log(res),
                   this.$message({
@@ -112,7 +117,7 @@ export default {
 </script>
 
 <style scoped>
-button {
+.operate-button {
   background-color: white;
   display: flex;
   padding: 8px 50px 8px 50px;
@@ -120,12 +125,12 @@ button {
   border: 1px solid #ddd;
 }
 
-button img {
+.operate-button img {
   width: 58px;
   height: 58px;
 }
 
-button p {
+.operate-button p {
   width: 90px;
   text-align: center;
   height: 58px;
