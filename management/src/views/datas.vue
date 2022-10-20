@@ -35,7 +35,7 @@
     <el-table
         :data="tableData"
         style="width: 100%"
-        max-height="250">
+        max-height="600">
       <el-table-column
           fixed
           prop="datasetname"
@@ -97,7 +97,8 @@
       <el-table
           :data="predictData"
           border
-          style="width: 100%">
+          style="width: 100%"
+          max-height="600">
         <el-table-column
             fixed
             prop="dataid"
@@ -138,8 +139,13 @@
             filter-placement="bottom-end">
           <template slot-scope="scope">
             <el-tag
+                v-if="scope.row.predictresult === 'clean'"
                 :type="scope.row.predictresult === 'clean' ? 'success' : 'danger'"
-                disable-transitions>{{scope.row.predictresult}}</el-tag>
+                disable-transitions>通过</el-tag>
+            <el-tag
+                v-if="scope.row.predictresult === 'buggy'"
+                :type="scope.row.predictresult === 'clean' ? 'success' : 'danger'"
+                disable-transitions>异常</el-tag>
           </template>
             width="100">
         </el-table-column>
@@ -227,7 +233,6 @@ export default {
         params:{
           datasetid:row.datasetid
         }}).then(res =>{
-        console.log(res)
         this.predictData=res.data
       })
     },

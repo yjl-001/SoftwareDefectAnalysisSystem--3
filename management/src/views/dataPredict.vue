@@ -7,13 +7,23 @@
       </p>
     </div>
 
-    <el-form ref="form" :model="form" label-width="80px" style="margin: 20px;font-weight: bold">
+    <el-form ref="form" :model="form" label-width="130px" style="margin: 20px;font-weight: bold">
       <el-form-item label="模型选择" >
         <el-select v-model="form.model" placeholder="请选择">
           <el-option label="逻辑回归" value="logistic"></el-option>
           <el-option label="支撑向量机" value="svm"></el-option>
+          <el-option label="朴素贝叶斯" value="beysi"></el-option>
         </el-select>
       </el-form-item>
+
+      <el-form-item label="特征指标选择" >
+        <el-select v-model="form.isdataset" placeholder="请选择">
+          <el-option label="cvs" value="0"></el-option>
+          <el-option label="LDHH" value="1"></el-option>
+          <el-option label="WchU" value="2"></el-option>
+        </el-select>
+      </el-form-item>
+
             <el-form-item label="上传附件">
               <el-upload
                   size="small"
@@ -75,7 +85,20 @@
               fixed="right"
               prop="predictresult"
               label="结果"
-              width="100">
+              :filters="[{ text: '通过', value: 'clean' }, { text: '异常', value: 'buggy' }]"
+              :filter-method="filterTag"
+              filter-placement="bottom-end">
+            <template slot-scope="scope">
+              <el-tag
+                  v-if="scope.row.predictresult === 'clean'"
+                  :type="scope.row.predictresult === 'clean' ? 'success' : 'danger'"
+                  disable-transitions>通过</el-tag>
+              <el-tag
+                  v-if="scope.row.predictresult === 'buggy'"
+                  :type="scope.row.predictresult === 'clean' ? 'success' : 'danger'"
+                  disable-transitions>异常</el-tag>
+            </template>
+            width="100">
           </el-table-column>
         </el-table>
       </el-dialog>
@@ -102,6 +125,7 @@ export default {
       predictData:[],
       user:{},
       form: {
+        isdataset:'',
       },
     }
   },
@@ -161,10 +185,25 @@ export default {
         console.log(formData)
         // post地址
         //上传
-        request.post("/api/predict/dataset",formData,{header:{'Content-Type':'multipart/form-data'}}).then(res =>{
-          this.isvisible=true
-          this.predictData=res.data
-        })
+        if(this.form.isdataset=='0'){
+          request.post("/api/predict/dataset",formData,{header:{'Content-Type':'multipart/form-data'}}).then(res =>{
+            this.isvisible=true
+            this.predictData=res.data
+          })
+        }
+        if(this.form.isdataset=='1'){
+          request.post("/api/ldhh/dataset",formData,{header:{'Content-Type':'multipart/form-data'}}).then(res =>{
+            this.isvisible=true
+            this.predictData=res.data
+          })
+        }
+        if(this.form.isdataset=='2'){
+          request.post("/api/wchu/dataset",formData,{header:{'Content-Type':'multipart/form-data'}}).then(res =>{
+            this.isvisible=true
+            this.predictData=res.data
+          })
+        }
+
       }else{
         if(!this.form.model){
           this.$message({

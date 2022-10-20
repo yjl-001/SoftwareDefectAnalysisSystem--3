@@ -18,9 +18,9 @@
 <!--    </div>-->
 
     <div class="block">
-      <el-carousel height="300px">
-        <el-carousel-item v-for="item in 4" :key="item">
-          <h3 class="small">{{ item }}</h3>
+      <el-carousel height="300px" style="border: #409EFF">
+        <el-carousel-item v-for="(item, index) in urls" :key="index">
+          <img v-bind:src="item.url" style="width: 100%;height: 100%">
         </el-carousel-item>
       </el-carousel>
     </div>
@@ -38,9 +38,22 @@
 </template>
 <script type="text/javascript">
 
+import request from "@/utils/request";
+
 export default {
+  created() {
+    // request.get("/api/datasets_center/deleteHistory",).then(res =>{
+    // })
+    // this.$message({
+    // })
+  },
   data() {
     return {
+      urls:[
+        {url:require('../assets/svm.jpg')},
+        {url:require('../assets/logic.jpg')},
+
+      ],
       map: null,
     }
   },

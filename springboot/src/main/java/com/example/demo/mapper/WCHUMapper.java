@@ -7,7 +7,7 @@ import org.apache.ibatis.annotations.Param;
 
 public interface WCHUMapper extends BaseMapper<WCHU> {
 
-    @Insert({"insert into ldhh(datasetid,model,userid,wchunumberofpublicattributes,wchunumberofattributes, wchufanin," +
+    @Insert({"insert into wchu(datasetid,model,userid,wchunumberofpublicattributes,wchunumberofattributes, wchufanin," +
             "wchunumberofprivatemethods,wchunumberofmethods,wchunumberofprivateattributes,wchunoc," +
             "wchuwmc,wchudit,wchunumberofattributesinherited,wchufanout,wchulcom,wchurfc,wchunumberofpublicmethods," +
             "wchucbo,wchunumberofmethodsinherited,wchunumberoflinesofcode,predictresult) " +
