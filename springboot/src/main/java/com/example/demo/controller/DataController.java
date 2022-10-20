@@ -39,7 +39,7 @@ public class DataController {
     @Resource
     DatasetMapper datasetMapper;
 
-//    @RequestParam(defaultValue = "svm") String model,
+    //    @RequestParam(defaultValue = "svm") String model,
 //    @RequestParam(defaultValue = "1") double numberOfNonTrivialBugsFoundUntil,
 //    @RequestParam(defaultValue = "1") double CvsWEntropy,
 //    @RequestParam(defaultValue = "1") double CvsEntropy,
@@ -53,8 +53,8 @@ public class DataController {
     @RequestMapping("/single")
     public Result<?> single(@RequestBody Data data) throws IOException {
         double[] pre = {data.getNumberOfNonTrivialBugsFoundUntil(),data.getCvsWEntropy(),data.getCvsEntropy(),data.getNumberOfCriticalBugsFoundUntil(),
-                        data.getCvsLogEntropy(),data.getNumberOfHighPriorityBugsFoundUntil(),data.getNumberOfMajorBugsFoundUntil(),
-                        data.getCvsLinEntropy(),data.getNumberOfBugsFoundUntil(),data.getCvsExpEntropy()};
+                data.getCvsLogEntropy(),data.getNumberOfHighPriorityBugsFoundUntil(),data.getNumberOfMajorBugsFoundUntil(),
+                data.getCvsLinEntropy(),data.getNumberOfBugsFoundUntil(),data.getCvsExpEntropy()};
         System.out.println(data.getModel());
         System.out.println(data.getNumberOfNonTrivialBugsFoundUntil());
         if (data.getModel().equals("svm")){
