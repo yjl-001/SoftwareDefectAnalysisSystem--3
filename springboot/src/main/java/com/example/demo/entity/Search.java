@@ -7,4 +7,5 @@ public class Search {
     private String datasetname;
     private String datasetKind;
     private String model;
+    private int isdataset;//评价指标
 }
