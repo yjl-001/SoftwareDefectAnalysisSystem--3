@@ -81,7 +81,7 @@ export default {
         if (valid) {
           // 校验通过
           request
-            .post("/api/user/alterInfo", {
+            .get("/api/user/alterInfo", {
               params: {
                 userid: this.user.userid,
                 name: this.ruleForm.name,

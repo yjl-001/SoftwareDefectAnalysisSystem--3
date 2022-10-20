@@ -88,7 +88,7 @@ export default {
         if (valid) {
           // 校验通过
           request
-            .post("/api/user/alterPassword", {
+            .get("/api/user/alterPassword", {
               params: {
                 userid: this.user.userid,
                 oldPassword: this.ruleForm.oldPassword,

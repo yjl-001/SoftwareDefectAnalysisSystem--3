@@ -58,7 +58,7 @@ public class UserInfoController {
         if (b){
             return Result.success();
         }else {
-            return Result.error("0","错了");
+            return Result.error("1","错了");
         }
     }
     @RequestMapping("/register")
@@ -68,10 +68,10 @@ public class UserInfoController {
             if (i1==1){
                 return Result.success();
             }else {
-                return Result.error("0","添加失败");
+                return Result.error("1","添加失败");
             }
         }else {
-            return Result.error("0","验证码错误");
+            return Result.error("1","验证码错误");
         }
 
     }
@@ -89,14 +89,14 @@ public class UserInfoController {
             userInfoMapper.update(userInfo,updateWrapper);
             return Result.success();
         }else {
-            return Result.error("0","邮箱错误");
+            return Result.error("1","邮箱错误");
         }
     }
 
     @RequestMapping("/alterPassword")
-    public Result<?> alterP(@RequestParam(defaultValue = "3") int userid,
-                            @RequestParam(defaultValue = "sda") String oldPassword,
-                            @RequestParam(defaultValue = "gaile") String newPassword){
+    public Result<?> alterP(@RequestParam int userid,
+                            @RequestParam String oldPassword,
+                            @RequestParam String newPassword){
         LambdaQueryWrapper<UserInfo> wrapper = Wrappers.<UserInfo>lambdaQuery().eq(UserInfo::getUserid,userid);
         UserInfo userInfo = userInfoMapper.selectOne(wrapper);
         if (userInfo.getPassword().equals(oldPassword)){
@@ -106,20 +106,20 @@ public class UserInfoController {
             userInfoMapper.update(userInfo,updateWrapper);
             return Result.success();
         }else {
-            return Result.error("0","密码错误");
+            return Result.error("1","密码错误");
         }
     }
 
     @RequestMapping("/alterInfo")
-    public Result<?> alterI(@RequestParam(defaultValue = "") int userid,
-                            @RequestParam(defaultValue = "") String name,
-                            @RequestParam(defaultValue = "") String number,
-                            @RequestParam(defaultValue = "") String sex,
-                            @RequestParam(defaultValue = "") String job){
+    public Result<?> alterI(@RequestParam int userid,
+                            @RequestParam String name,
+                            @RequestParam String number,
+                            @RequestParam String sex,
+                            @RequestParam String job){
         if (StrUtil.isNotBlank(name) || StrUtil.isNotBlank(number) || StrUtil.isNotBlank(sex) || StrUtil.isNotBlank(job)){
 
         }else {
-            return Result.error("0","啥也没填改啥呢！");
+            return Result.error("1","啥也没填改啥呢！");
         }
         LambdaQueryWrapper<UserInfo> wrapper = Wrappers.<UserInfo>lambdaQuery().eq(UserInfo::getUserid,userid);
         UserInfo userInfo = userInfoMapper.selectOne(wrapper);
@@ -133,7 +133,7 @@ public class UserInfoController {
             if (sex == "man" || sex=="woman"){
                 userInfo.setSex(sex);
             }else {
-                return Result.error("0","性别为man或woman");
+                return Result.error("1","性别为man或woman");
             }
         }
         if (StrUtil.isNotBlank(job)){

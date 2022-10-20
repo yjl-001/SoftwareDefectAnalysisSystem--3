@@ -72,7 +72,7 @@ export default {
         if (valid) {
           // 校验通过
           request
-            .post("/api/user/alterEmail", {
+            .get("/api/user/alterEmail", {
               params: {
                 userid: this.user.userid,
                 oldEmail: this.ruleForm.oldEmail,
