@@ -39,11 +39,9 @@
       </div>
       <p class="settings_p">我的设置</p>
       <div class="settings">
-        <SettingButton class="s_btn" icon_src='icon1.png' title="修改邮箱"></SettingButton>
-        <SettingButton class="s_btn" icon_src='icon2.png' title="重置密码"></SettingButton>
-        <SettingButton class="s_btn" icon_src='icon3.png' title="重置邮箱"></SettingButton>
-        <SettingButton class="s_btn" icon_src='icon4.png' title="修改手机"></SettingButton>
-        <SettingButton class="s_btn" icon_src='icon5.png' title="修改信息"></SettingButton>
+        <SettingMail class="s_btn" icon_src='icon1.png' title="修改邮箱" ></SettingMail>
+        <SettingPassword class="s_btn" icon_src='icon2.png' title="重置密码"></SettingPassword>
+        <SettingMsg class="s_btn" icon_src='icon5.png' title="修改信息"></SettingMsg>
         <SettingButton class="s_btn" icon_src='icon6.png' title="注销"></SettingButton>
       </div>
     </div>
@@ -53,16 +51,22 @@
 <script>
 import CustomerInfo from '@/components/CustomerInfo.vue';
 import Nav_ from "@/components/Nav_.vue";
+import SettingMail from '@/components/SettingMail.vue';
+import SettingPassword from '@/components/SettingPassword.vue';
+import SettingMsg from '@/components/SettingMsg.vue';
 import SettingButton from '@/components/SettingButton.vue';
-import Announcement from '@/components/Announcement.vue';
 
+
+import Announcement from '@/components/Announcement.vue';
 export default {
   name: "center.vue",
   components: {
     CustomerInfo,
     Nav_,
-    SettingButton,
     Announcement,
+    SettingMail,
+    SettingPassword,
+    SettingMsg,SettingButton
   },
   data(){
     return{
@@ -81,6 +85,8 @@ export default {
         net_verified: '身份证号码与姓名一致',
       }
     }
+  },
+  methods: {
   }
 }
 </script>
