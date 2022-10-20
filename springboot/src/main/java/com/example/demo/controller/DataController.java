@@ -77,9 +77,9 @@ public class DataController {
             userDataset.setUserid(data.getUserid());
             userDataset.setDatasetid(datasetid);
             userDatasetMapper.insert(userDataset);
-            dataMapper.insertOne(datasetid,"svm",1,pre[0],pre[1],pre[2],pre[3],pre[4],pre[5],pre[6],pre[7],pre[8],pre[9],Predict.predict(1,1,pre));
-            return Result.success(Predict.predict(1,1,pre));
-        }else {
+            dataMapper.insertOne(datasetid,"svm",data.getUserid(),pre[0],pre[1],pre[2],pre[3],pre[4],pre[5],pre[6],pre[7],pre[8],pre[9],Predict.predict(1,0,pre));
+            return Result.success(Predict.predict(1,0,pre));
+        }else if(data.getModel().equals("logistic")){
             Dataset dataset = new Dataset();
             dataset.setDatasetKind("single");
             dataset.setModel("logistic");
@@ -100,8 +100,31 @@ public class DataController {
             userDataset.setDatasetid(datasetid);
             userDatasetMapper.insert(userDataset);
             System.out.println(pre[0]);
-            dataMapper.insertOne(datasetid,"logistic",1,pre[0],pre[1],pre[2],pre[3],pre[4],pre[5],pre[6],pre[7],pre[8],pre[9],Predict.predict(0,1,pre));
-            return Result.success(Predict.predict(0,1,pre));
+            dataMapper.insertOne(datasetid,"logistic",data.getUserid(),pre[0],pre[1],pre[2],pre[3],pre[4],pre[5],pre[6],pre[7],pre[8],pre[9],Predict.predict(0,0,pre));
+            return Result.success(Predict.predict(0,0,pre));
+        }else {
+            Dataset dataset = new Dataset();
+            dataset.setDatasetKind("single");
+            dataset.setModel("beysi");
+            dataset.setDatasetname("single");
+            dataset.setIsdataset(0);
+            Date date = new Date();
+            java.sql.Date date1 = new java.sql.Date(date.getYear(),date.getMonth(),date.getDay());
+            dataset.setUploadtime(date1);
+            datasetMapper.insert(dataset);
+            QueryWrapper<Dataset> wrapper = new QueryWrapper<>();
+            wrapper.select("max(datasetid) as datasetid");
+            Dataset dataset1 = datasetMapper.selectOne(wrapper);
+
+
+            int datasetid = dataset1.getDatasetid();
+            UserDataset userDataset = new UserDataset();
+            userDataset.setUserid(data.getUserid());
+            userDataset.setDatasetid(datasetid);
+            userDatasetMapper.insert(userDataset);
+            System.out.println(pre[0]);
+            dataMapper.insertOne(datasetid,"beysi",data.getUserid(),pre[0],pre[1],pre[2],pre[3],pre[4],pre[5],pre[6],pre[7],pre[8],pre[9],Predict.predict(2,0,pre));
+            return Result.success(Predict.predict(2,0,pre));
         }
 
     }
@@ -140,8 +163,10 @@ public class DataController {
         int modelid;
         if (model.equals("svm")){
             modelid = 1;
-        }else {
+        }else if (model.equals("logistic")){
             modelid = 0;
+        }else {
+            modelid = 2;
         }
 
         List<Data> data = new ArrayList<>();
@@ -154,7 +179,7 @@ public class DataController {
                 doubles[i] = Double.valueOf(strarr[i]);
             }
             dataMapper.insertOne(dataset1.getDatasetid(),model,userid,doubles[0],doubles[1],doubles[2],doubles[3],doubles[4],
-                    doubles[5],doubles[6],doubles[7],doubles[8],doubles[9],Predict.predict(modelid,1,doubles));
+                    doubles[5],doubles[6],doubles[7],doubles[8],doubles[9],Predict.predict(modelid,0,doubles));
             QueryWrapper<Data> queryWrapper = new QueryWrapper<>();
             queryWrapper.select("max(dataid) as dataid");
             Data data1 = dataMapper.selectOne(queryWrapper);
