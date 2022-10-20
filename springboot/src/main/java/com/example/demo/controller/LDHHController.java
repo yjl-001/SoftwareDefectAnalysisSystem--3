@@ -175,7 +175,9 @@ public class LDHHController {
             QueryWrapper<LDHH> queryWrapper = new QueryWrapper<>();
             queryWrapper.select("max(dataid) as dataid");
             LDHH ldhh = ldhhMapper.selectOne(queryWrapper);
-            ldhhs.add(ldhh);
+            LambdaQueryWrapper<LDHH> wrapper3 = Wrappers.<LDHH>lambdaQuery().eq(LDHH::getDataid,ldhh.getDataid());
+            LDHH ldhh1 = ldhhMapper.selectOne(wrapper3);
+            ldhhs.add(ldhh1);
         }
 
         if (i1 != 0 && i2 !=0 ){

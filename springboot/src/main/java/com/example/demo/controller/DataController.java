@@ -183,7 +183,9 @@ public class DataController {
             QueryWrapper<Data> queryWrapper = new QueryWrapper<>();
             queryWrapper.select("max(dataid) as dataid");
             Data data1 = dataMapper.selectOne(queryWrapper);
-            data.add(data1);
+            LambdaQueryWrapper<Data> wrapper3 = Wrappers.<Data>lambdaQuery().eq(Data::getDataid,data1.getDataid());
+            Data data2 = dataMapper.selectOne(wrapper3);
+            data.add(data2);
         }
 
         if (i1 != 0 && i2 !=0 ){

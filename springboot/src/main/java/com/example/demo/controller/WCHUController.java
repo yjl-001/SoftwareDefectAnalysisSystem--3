@@ -1,12 +1,11 @@
 package com.example.demo.controller;
 
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.example.demo.Utils.Predict;
 import com.example.demo.common.Result;
-import com.example.demo.entity.Dataset;
-import com.example.demo.entity.LDHH;
-import com.example.demo.entity.UserDataset;
-import com.example.demo.entity.WCHU;
+import com.example.demo.entity.*;
 import com.example.demo.mapper.DatasetMapper;
 import com.example.demo.mapper.UserDatasetMapper;
 import com.example.demo.mapper.WCHUMapper;
@@ -172,7 +171,9 @@ public class WCHUController {
             QueryWrapper<WCHU> queryWrapper = new QueryWrapper<>();
             queryWrapper.select("max(dataid) as dataid");
             WCHU wchu = wchuMapper.selectOne(queryWrapper);
-            wchus.add(wchu);
+            LambdaQueryWrapper<WCHU> wrapper3 = Wrappers.<WCHU>lambdaQuery().eq(WCHU::getDataid,wchu.getDataid());
+            WCHU wchu1 = wchuMapper.selectOne(wrapper3);
+            wchus.add(wchu1);
         }
 
         if (i1 != 0 && i2 !=0 ){
