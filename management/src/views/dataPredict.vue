@@ -45,11 +45,12 @@
               </el-upload>
             </el-form-item>
 
-      <el-dialog title="数据预测详情" :visible.sync="isvisible">
+      <el-dialog title="数据预测详情" :visible.sync="visible1">
         <el-table
             :data="predictData"
             border
-            style="width: 100%">
+            style="width: 100%"
+            max-height="600">
           <el-table-column
               fixed
               prop="dataid"
@@ -58,29 +59,293 @@
           </el-table-column>
           <el-table-column
               prop="numberOfNonTrivialBugsFoundUntil"
-              label="特征1"
+              label="NonTrivialBugs"
               width="120">
           </el-table-column>
           <el-table-column
-              prop="province"
-              label="特征2"
+              prop="cvsWEntropy"
+              label="WEntropy"
               width="120">
           </el-table-column>
           <el-table-column
-              prop="city"
-              label="特征3"
+              prop="cvsEntropy"
+              label="Entropy"
               width="120">
           </el-table-column>
           <el-table-column
-              prop="address"
-              label="特征4"
+              prop="numberOfCriticalBugsFoundUntil"
+              label="CriticalBugs"
               width="120">
           </el-table-column>
           <el-table-column
-              prop="zip"
-              label="特征5"
+              prop="cvsLogEntropy"
+              label="LogEntropy"
               width="120">
           </el-table-column>
+          <el-table-column
+              label="HighPriorityBugs"
+              prop="numberOfHighPriorityBugsFoundUntil"
+              width="120">
+          </el-table-column>
+          <el-table-column
+              label="MajorBugs"
+              prop="numberOfMajorBugsFoundUntil"
+              width="120">
+          </el-table-column>
+          <el-table-column
+              label="LinEntropy"
+              prop="cvsLinEntropy"
+              width="120">
+          </el-table-column>
+          <el-table-column
+              prop="numberOfBugsFoundUntil"
+              label="BugsFound"
+              width="120">
+          </el-table-column>
+          <el-table-column
+              prop="cvsExpEntropy"
+              label="ExpEntropy"
+              width="120">
+          </el-table-column>
+
+          <el-table-column
+              fixed="right"
+              prop="predictresult"
+              label="结果"
+              :filters="[{ text: '通过', value: 'clean' }, { text: '异常', value: 'buggy' }]"
+              :filter-method="filterTag"
+              filter-placement="bottom-end">
+            <template slot-scope="scope">
+              <el-tag
+                  v-if="scope.row.predictresult === 'clean'"
+                  :type="scope.row.predictresult === 'clean' ? 'success' : 'danger'"
+                  disable-transitions>通过</el-tag>
+              <el-tag
+                  v-if="scope.row.predictresult === 'buggy'"
+                  :type="scope.row.predictresult === 'clean' ? 'success' : 'danger'"
+                  disable-transitions>异常</el-tag>
+            </template>
+            width="100">
+          </el-table-column>
+        </el-table>
+      </el-dialog>
+      <el-dialog title="数据预测详情" :visible.sync="visible2">
+        <el-table
+            :data="predictData"
+            border
+            style="width: 100%"
+            max-height="600">
+          <el-table-column
+              fixed
+              prop="dataid"
+              label="数据标号"
+              width="150">
+          </el-table-column>
+          <el-table-column
+              prop="ldhhlcom"
+              label="lcom"
+              width="120">
+          </el-table-column>
+          <el-table-column
+              prop="ldhhfanin"
+              label="Fanin"
+              width="120">
+          </el-table-column>
+          <el-table-column
+              prop="ldhhnumberofpublicmethods"
+              label="Publicmethods"
+              width="120">
+          </el-table-column>
+          <el-table-column
+              prop="ldhhnumberofprivateattributes"
+              label="Private_attributes"
+              width="120">
+          </el-table-column>
+          <el-table-column
+              prop="ldhhnumberofpublicattributes"
+              label="Public_attributes"
+              width="120">
+          </el-table-column>
+          <el-table-column
+              label="private_methods"
+              prop="ldhhnumberofprivatemethods"
+              width="120">
+          </el-table-column>
+          <el-table-column
+              label="attributes_inherited"
+              prop="ldhhnumberofattributesinherited"
+              width="120">
+          </el-table-column>
+          <el-table-column
+              label="Noc"
+              prop="ldhhnoc"
+              width="120">
+          </el-table-column>
+          <el-table-column
+              prop="ldhhwmc"
+              label="Wmc"
+              width="120">
+          </el-table-column>
+          <el-table-column
+              prop="ldhhnumberofattributes"
+              label="attributes"
+              width="120">
+          </el-table-column>
+          <el-table-column
+              prop="ldhhnumberoflinesofcode"
+              label="Linesofcode"
+              width="120">
+          </el-table-column><el-table-column
+            prop="ldhhdit"
+            label="Dit"
+            width="120">
+        </el-table-column><el-table-column
+            prop="ldhhfanout"
+            label="Fanout"
+            width="120">
+        </el-table-column>
+          <el-table-column
+              prop="ldhhnumberofmethodsinherited"
+              label="methods_inherited"
+              width="120">
+          </el-table-column>
+          <el-table-column
+              prop="ldhhrfc"
+              label="Rfc"
+              width="120">
+          </el-table-column>
+          <el-table-column
+              prop="ldhhcbo"
+              label="Cbo"
+              width="120">
+          </el-table-column>
+          <el-table-column
+              prop="ldhhnumberofmethods"
+              label="Numberofmethods"
+              width="120">
+          </el-table-column>
+
+
+
+          <el-table-column
+              fixed="right"
+              prop="predictresult"
+              label="结果"
+              :filters="[{ text: '通过', value: 'clean' }, { text: '异常', value: 'buggy' }]"
+              :filter-method="filterTag"
+              filter-placement="bottom-end">
+            <template slot-scope="scope">
+              <el-tag
+                  v-if="scope.row.predictresult === 'clean'"
+                  :type="scope.row.predictresult === 'clean' ? 'success' : 'danger'"
+                  disable-transitions>通过</el-tag>
+              <el-tag
+                  v-if="scope.row.predictresult === 'buggy'"
+                  :type="scope.row.predictresult === 'clean' ? 'success' : 'danger'"
+                  disable-transitions>异常</el-tag>
+            </template>
+            width="100">
+          </el-table-column>
+        </el-table>
+      </el-dialog>
+      <el-dialog title="数据预测详情" :visible.sync="visible3">
+        <el-table
+            :data="predictData"
+            border
+            style="width: 100%"
+            max-height="600">
+          <el-table-column
+              fixed
+              prop="dataid"
+              label="数据标号"
+              width="150">
+          </el-table-column>
+          <el-table-column
+              prop="wchunumberofpublicattributes"
+              label="Publicattributes"
+              width="120">
+          </el-table-column>
+          <el-table-column
+              prop="wchunumberofattributes"
+              label="Attributes"
+              width="120">
+          </el-table-column>
+          <el-table-column
+              prop="wchufanin"
+              label="Fanin"
+              width="120">
+          </el-table-column>
+          <el-table-column
+              prop="wchunumberofprivatemethods"
+              label="Privatemethods"
+              width="120">
+          </el-table-column>
+          <el-table-column
+              prop="wchunumberofmethods"
+              label="Methods"
+              width="120">
+          </el-table-column>
+          <el-table-column
+              label="Private_attributes"
+              prop="wchunumberofprivateattributes"
+              width="120">
+          </el-table-column>
+          <el-table-column
+              label="Noc"
+              prop="wchunoc"
+              width="120">
+          </el-table-column>
+          <el-table-column
+              label="Wmc"
+              prop="wchuwmc"
+              width="120">
+          </el-table-column>
+          <el-table-column
+              prop="wchudit"
+              label="Dit"
+              width="120">
+          </el-table-column>
+          <el-table-column
+              prop="wchunumberofattributesinherited"
+              label="attributes_inherited"
+              width="120">
+          </el-table-column>
+          <el-table-column
+              prop="wchufanout"
+              label="fanout"
+              width="120">
+          </el-table-column><el-table-column
+            prop="wchulcom"
+            label="lcom"
+            width="120">
+        </el-table-column><el-table-column
+            prop="wchurfc"
+            label="RFC"
+            width="120">
+        </el-table-column>
+          <el-table-column
+              prop="wchunumberofpublicmethods"
+              label="Publicmethods"
+              width="120">
+          </el-table-column>
+          <el-table-column
+              prop="wchucbo"
+              label="Cbo"
+              width="120">
+          </el-table-column>
+          <el-table-column
+              prop="wchunumberofmethodsinherited"
+              label="Methods_inherited"
+              width="120">
+          </el-table-column>
+          <el-table-column
+              prop="wchunumberoflinesofcode"
+              label="Linesofcode"
+              width="120">
+          </el-table-column>
+
+
+
           <el-table-column
               fixed="right"
               prop="predictresult"
@@ -120,6 +385,9 @@ export default {
   data() {
     return {
       isvisible:false,
+      visible1:false,
+      visible2:false,
+      visible3:false,
       fileType: ["csv", "txt","xls","xlxs"],
       fileList:[],
       predictData:[],
@@ -187,19 +455,19 @@ export default {
         //上传
         if(this.form.isdataset=='0'){
           request.post("/api/predict/dataset",formData,{header:{'Content-Type':'multipart/form-data'}}).then(res =>{
-            this.isvisible=true
+            this.visible1=true
             this.predictData=res.data
           })
         }
         if(this.form.isdataset=='1'){
           request.post("/api/ldhh/dataset",formData,{header:{'Content-Type':'multipart/form-data'}}).then(res =>{
-            this.isvisible=true
+            this.visible2=true
             this.predictData=res.data
           })
         }
         if(this.form.isdataset=='2'){
           request.post("/api/wchu/dataset",formData,{header:{'Content-Type':'multipart/form-data'}}).then(res =>{
-            this.isvisible=true
+            this.visible3=true
             this.predictData=res.data
           })
         }
