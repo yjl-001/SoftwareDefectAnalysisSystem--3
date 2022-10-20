@@ -6,6 +6,7 @@ import lombok.Data;
 @TableName("ldhh")
 @Data
 public class LDHH {
+    private int userid;
     private int datasetid;
     private int dataid;
     private String model;

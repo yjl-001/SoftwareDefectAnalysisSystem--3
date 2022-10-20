@@ -3,17 +3,16 @@ package com.example.demo.controller;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
-import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.example.demo.Utils.Predict;
 import com.example.demo.common.Result;
 import com.example.demo.entity.Data;
 import com.example.demo.entity.Dataset;
+import com.example.demo.entity.LDHH;
 import com.example.demo.entity.UserDataset;
-import com.example.demo.entity.UserInfo;
 import com.example.demo.mapper.DataMapper;
 import com.example.demo.mapper.DatasetMapper;
+import com.example.demo.mapper.LDHHMapper;
 import com.example.demo.mapper.UserDatasetMapper;
-import com.example.demo.mapper.UserInfoMapper;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -27,11 +26,11 @@ import java.util.List;
 
 @RestController
 @CrossOrigin
-@RequestMapping("/predict")
-public class DataController {
+@RequestMapping("/ldhh")
+public class LDHHController {
 
     @Resource
-    DataMapper dataMapper;
+    LDHHMapper ldhhMapper;
 
     @Resource
     UserDatasetMapper userDatasetMapper;
@@ -39,30 +38,19 @@ public class DataController {
     @Resource
     DatasetMapper datasetMapper;
 
-//    @RequestParam(defaultValue = "svm") String model,
-//    @RequestParam(defaultValue = "1") double numberOfNonTrivialBugsFoundUntil,
-//    @RequestParam(defaultValue = "1") double CvsWEntropy,
-//    @RequestParam(defaultValue = "1") double CvsEntropy,
-//    @RequestParam(defaultValue = "1") double numberOfCriticalBugsFoundUntil,
-//    @RequestParam(defaultValue = "1") double CvsLogEntropy,
-//    @RequestParam(defaultValue = "1") double numberOfHighPriorityBugsFoundUntil,
-//    @RequestParam(defaultValue = "1") double numberOfMajorBugsFoundUntil,
-//    @RequestParam(defaultValue = "1")  double CvsLinEntropy,
-//    @RequestParam(defaultValue = "1") double numberOfBugsFoundUntil,
-//    @RequestParam(defaultValue = "1")  double CvsExpEntropy
     @RequestMapping("/single")
-    public Result<?> single(@RequestBody Data data) throws IOException {
-        double[] pre = {data.getNumberOfNonTrivialBugsFoundUntil(),data.getCvsWEntropy(),data.getCvsEntropy(),data.getNumberOfCriticalBugsFoundUntil(),
-                        data.getCvsLogEntropy(),data.getNumberOfHighPriorityBugsFoundUntil(),data.getNumberOfMajorBugsFoundUntil(),
-                        data.getCvsLinEntropy(),data.getNumberOfBugsFoundUntil(),data.getCvsExpEntropy()};
-        System.out.println(data.getModel());
-        System.out.println(data.getNumberOfNonTrivialBugsFoundUntil());
-        if (data.getModel().equals("svm")){
+    public Result<?> single(@RequestBody LDHH ldhh) throws IOException {
+        double[] pre = {ldhh.getLdhhlcom(),ldhh.getLdhhfanin(),ldhh.getLdhhnumberofpublicmethods(),ldhh.getLdhhnumberofprivateattributes(),
+            ldhh.getLdhhnumberofpublicattributes(),ldhh.getLdhhnumberofprivatemethods(),ldhh.getLdhhnumberofattributesinherited(),ldhh.getLdhhnoc(),
+            ldhh.getLdhhwmc(),ldhh.getLdhhnumberofattributes(),ldhh.getLdhhnumberoflinesofcode(),ldhh.getLdhhdit(),ldhh.getLdhhfanout(),
+            ldhh.getLdhhnumberofmethodsinherited(),ldhh.getLdhhrfc(),ldhh.getLdhhcbo(),ldhh.getLdhhnumberofmethods()};
+        System.out.println(ldhh.getModel());
+        if (ldhh.getModel().equals("svm")){
             Dataset dataset = new Dataset();
             dataset.setDatasetKind("single");
             dataset.setModel("svm");
             dataset.setDatasetname("single");
-            dataset.setIsdataset(0);
+            dataset.setIsdataset(1);
             Date date = new Date();
             java.sql.Date date1 = new java.sql.Date(date.getYear(),date.getMonth(),date.getDay()+16);
             dataset.setUploadtime(date1);
@@ -74,17 +62,18 @@ public class DataController {
 
             int datasetid = dataset1.getDatasetid();
             UserDataset userDataset = new UserDataset();
-            userDataset.setUserid(data.getUserid());
+            userDataset.setUserid(ldhh.getUserid());
             userDataset.setDatasetid(datasetid);
             userDatasetMapper.insert(userDataset);
-            dataMapper.insertOne(datasetid,"svm",data.getUserid(),pre[0],pre[1],pre[2],pre[3],pre[4],pre[5],pre[6],pre[7],pre[8],pre[9],Predict.predict(1,0,pre));
-            return Result.success(Predict.predict(1,0,pre));
-        }else if(data.getModel().equals("logistic")){
+            ldhhMapper.insertOne(datasetid,"svm",ldhh.getUserid(),pre[0],pre[1],pre[2],pre[3],pre[4],pre[5],pre[6],pre[7],pre[8],pre[9],pre[10],
+                    pre[11],pre[12],pre[13],pre[14],pre[15],pre[16], Predict.predict(1,1,pre));
+            return Result.success(Predict.predict(1,1,pre));
+        }else if(ldhh.getModel().equals("logistic")){
             Dataset dataset = new Dataset();
             dataset.setDatasetKind("single");
             dataset.setModel("logistic");
             dataset.setDatasetname("single");
-            dataset.setIsdataset(0);
+            dataset.setIsdataset(1);
             Date date = new Date();
             java.sql.Date date1 = new java.sql.Date(date.getYear(),date.getMonth(),date.getDay());
             dataset.setUploadtime(date1);
@@ -96,18 +85,19 @@ public class DataController {
 
             int datasetid = dataset1.getDatasetid();
             UserDataset userDataset = new UserDataset();
-            userDataset.setUserid(data.getUserid());
+            userDataset.setUserid(ldhh.getUserid());
             userDataset.setDatasetid(datasetid);
             userDatasetMapper.insert(userDataset);
             System.out.println(pre[0]);
-            dataMapper.insertOne(datasetid,"logistic",data.getUserid(),pre[0],pre[1],pre[2],pre[3],pre[4],pre[5],pre[6],pre[7],pre[8],pre[9],Predict.predict(0,0,pre));
-            return Result.success(Predict.predict(0,0,pre));
+            ldhhMapper.insertOne(datasetid,"logistic",ldhh.getUserid(),pre[0],pre[1],pre[2],pre[3],pre[4],pre[5],pre[6],pre[7],pre[8],pre[9],pre[10],
+                    pre[11],pre[12],pre[13],pre[14],pre[15],pre[16],Predict.predict(0,1,pre));
+            return Result.success(Predict.predict(0,1,pre));
         }else {
             Dataset dataset = new Dataset();
             dataset.setDatasetKind("single");
             dataset.setModel("beysi");
             dataset.setDatasetname("single");
-            dataset.setIsdataset(0);
+            dataset.setIsdataset(1);
             Date date = new Date();
             java.sql.Date date1 = new java.sql.Date(date.getYear(),date.getMonth(),date.getDay());
             dataset.setUploadtime(date1);
@@ -119,17 +109,18 @@ public class DataController {
 
             int datasetid = dataset1.getDatasetid();
             UserDataset userDataset = new UserDataset();
-            userDataset.setUserid(data.getUserid());
+            userDataset.setUserid(ldhh.getUserid());
             userDataset.setDatasetid(datasetid);
             userDatasetMapper.insert(userDataset);
             System.out.println(pre[0]);
-            dataMapper.insertOne(datasetid,"beysi",data.getUserid(),pre[0],pre[1],pre[2],pre[3],pre[4],pre[5],pre[6],pre[7],pre[8],pre[9],Predict.predict(2,0,pre));
-            return Result.success(Predict.predict(2,0,pre));
+            ldhhMapper.insertOne(datasetid,"beysi",ldhh.getUserid(),pre[0],pre[1],pre[2],pre[3],pre[4],pre[5],pre[6],pre[7],pre[8],pre[9],pre[10],
+                    pre[11],pre[12],pre[13],pre[14],pre[15],pre[16],Predict.predict(2,1,pre));
+            return Result.success(Predict.predict(2,1,pre));
         }
 
     }
 
-    @PostMapping ("/dataset")
+    @PostMapping("/dataset")
     public Result<?> dataset(@RequestParam MultipartFile file,
                              @RequestParam Integer userid,
                              @RequestParam String model) throws IOException {
@@ -148,7 +139,7 @@ public class DataController {
         java.sql.Date date1 = new java.sql.Date(date.getYear(),date.getMonth(),date.getDay()+16);
         dataset.setUploadtime(date1);
         dataset.setModel(model);
-        dataset.setIsdataset(0);
+        dataset.setIsdataset(1);
 
         int i1 = datasetMapper.insert(dataset);
 
@@ -169,7 +160,7 @@ public class DataController {
             modelid = 2;
         }
 
-        List<Data> data = new ArrayList<>();
+        List<LDHH> ldhhs = new ArrayList<>();
 
         String lineTxt;
         while ((lineTxt=bufferedReader.readLine())!=null){
@@ -178,17 +169,26 @@ public class DataController {
             for (int i = 0;i<strarr.length-1;i++){
                 doubles[i] = Double.valueOf(strarr[i]);
             }
-            dataMapper.insertOne(dataset1.getDatasetid(),model,userid,doubles[0],doubles[1],doubles[2],doubles[3],doubles[4],
-                    doubles[5],doubles[6],doubles[7],doubles[8],doubles[9],Predict.predict(modelid,0,doubles));
-            QueryWrapper<Data> queryWrapper = new QueryWrapper<>();
+            ldhhMapper.insertOne(dataset1.getDatasetid(),model,userid,doubles[0],doubles[1],doubles[2],doubles[3],doubles[4],
+                    doubles[5],doubles[6],doubles[7],doubles[8],doubles[9],doubles[10],doubles[11],doubles[12],doubles[13],
+                    doubles[14],doubles[15],doubles[16], Predict.predict(modelid,1,doubles));
+            QueryWrapper<LDHH> queryWrapper = new QueryWrapper<>();
             queryWrapper.select("max(dataid) as dataid");
-            Data data1 = dataMapper.selectOne(queryWrapper);
-            data.add(data1);
+            LDHH ldhh = ldhhMapper.selectOne(queryWrapper);
+            ldhhs.add(ldhh);
         }
 
         if (i1 != 0 && i2 !=0 ){
-            return Result.success(data);
+            return Result.success(ldhhs);
         }else
             return Result.error("1","错啦");
+    }
+
+    @RequestMapping("/hello")
+    public Result<?> r(){
+        LambdaQueryWrapper<LDHH> wrapper = Wrappers.<LDHH>lambdaQuery().eq(LDHH::getDatasetid,4);
+        LDHH ldhh = ldhhMapper.selectOne(wrapper);
+
+        return Result.success(ldhh);
     }
 }

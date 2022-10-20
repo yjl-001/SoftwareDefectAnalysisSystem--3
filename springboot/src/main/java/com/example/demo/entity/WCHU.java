@@ -6,6 +6,7 @@ import lombok.Data;
 @TableName("wchu")
 @Data
 public class WCHU {
+    private int userid;
     private int datasetid;
     private int dataid;
     private String model;
