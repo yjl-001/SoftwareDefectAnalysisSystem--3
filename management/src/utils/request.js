@@ -4,17 +4,18 @@ import qs from 'qs'
 
 const request = axios.create({
     baseURL: "",
-    timeout: 5000
+    timeout: 50000
 })
 
 // 请求白名单，如果请求在白名单里面，将不会被拦截校验权限
-const whiteUrls = ["/user/login", '/user/register']
+const whiteUrls = ["/api/user/login", "/api/user/register","/api/user/sendemail"]
 
 // request 拦截器
 // 可以自请求发送前对请求做一些处理
 // 比如统一加token，对请求参数统一加密
 request.interceptors.request.use(config => {
-    config.headers['Content-Type'] = 'application/json;charset=utf-8';
+    if(config.method=='get'&&config.params==true){config.headers['Content-Type'] = 'application/json;charset=utf-8';}
+    // else{config.headers['Content-Type'] ='multipart/form-data';}
 
     // 取出sessionStorage里面缓存的用户信息
     let userJson = sessionStorage.getItem("user")

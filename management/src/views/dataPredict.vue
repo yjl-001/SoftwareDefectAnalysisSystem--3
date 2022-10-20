@@ -35,6 +35,50 @@
               </el-upload>
             </el-form-item>
 
+      <el-dialog title="数据预测详情" :visible.sync="isvisible">
+        <el-table
+            :data="predictData"
+            border
+            style="width: 100%">
+          <el-table-column
+              fixed
+              prop="dataid"
+              label="数据标号"
+              width="150">
+          </el-table-column>
+          <el-table-column
+              prop="numberOfNonTrivialBugsFoundUntil"
+              label="特征1"
+              width="120">
+          </el-table-column>
+          <el-table-column
+              prop="province"
+              label="特征2"
+              width="120">
+          </el-table-column>
+          <el-table-column
+              prop="city"
+              label="特征3"
+              width="120">
+          </el-table-column>
+          <el-table-column
+              prop="address"
+              label="特征4"
+              width="120">
+          </el-table-column>
+          <el-table-column
+              prop="zip"
+              label="特征5"
+              width="120">
+          </el-table-column>
+          <el-table-column
+              fixed="right"
+              prop="predictresult"
+              label="结果"
+              width="100">
+          </el-table-column>
+        </el-table>
+      </el-dialog>
 
       <el-form-item>
         <el-button type="primary" @click="onSubmit">预测</el-button>
@@ -52,8 +96,10 @@ import request from "@/utils/request";
 export default {
   data() {
     return {
-      fileType: ["csv", "txt","xls","xlxs","jpg", "jpeg"],
+      isvisible:false,
+      fileType: ["csv", "txt","xls","xlxs"],
       fileList:[],
+      predictData:[],
       user:{},
       form: {
       },
@@ -99,26 +145,35 @@ export default {
       this.fileList = [file]
     },
     onSubmit() {
-      console.log(this.fileList)
-      console.log(this.form.model)
-      if(this.fileList.length <= 0){
-        this.$message.error('请选择文件');
-        return
+      if(this.beforeAvatarUpload(this.fileList[0])==true&&this.form.model){
+            this.$message({
+              type:"success",
+              message:"上传成功",
+            })
+        if(this.fileList.length <= 0){
+          this.$message.error('请选择文件');
+          return
+        }
+        const formData = new FormData();
+        formData.append('file', this.fileList[0].raw)
+        formData.append('userid', this.user.userid)
+        formData.append('model', this.form.model)
+        console.log(formData)
+        // post地址
+        //上传
+        request.post("/api/predict/dataset",formData,{header:{'Content-Type':'multipart/form-data'}}).then(res =>{
+          this.isvisible=true
+          this.predictData=res.data
+        })
+      }else{
+        if(!this.form.model){
+          this.$message({
+            type:"error",
+            message:"请选择模型!",
+          })}
+        }
       }
-      const formData = new FormData();
-      formData.append('file', this.fileList[0].raw)
-      formData.append('userid', this.user.userid)
-      formData.append('model', this.form.model)
-      console.log(formData)
-      // post地址
-      //上传
-
-      request.post("/api/predict/dataset",formData,{header:{'Content-Type':'multipart/form-data'}}).then(res =>{
-      })
-
-      this.showResult = true;
     }
-  }
 }
 </script>
 
