@@ -125,7 +125,7 @@ public class DatasetController {
             datasetIDs.add(datasets.get(i).getDatasetid());
         }
         System.out.println(search);
-        if (!StrUtil.isNotBlank(search.getDatasetname()) && !StrUtil.isNotBlank(search.getDatasetKind()) && !StrUtil.isNotBlank(search.getModel()) && !StrUtil.isNotBlank(String.valueOf(search.getIsdataset()))){
+        if (!StrUtil.isNotBlank(search.getDatasetname()) && !StrUtil.isNotBlank(search.getDatasetKind()) && !StrUtil.isNotBlank(search.getModel()) ){
             System.out.println("aaaaaaaaaa");
             LambdaQueryWrapper<Dataset> wrapper3 = Wrappers.<Dataset>lambdaQuery().orderByAsc(Dataset::getDatasetname);
             wrapper3.in(Dataset::getDatasetid,datasetIDs);
@@ -147,9 +147,7 @@ public class DatasetController {
             if (StrUtil.isNotBlank(search.getModel())){
                 wrapper1.eq(Dataset::getModel,search.getModel());
             }
-            if (StrUtil.isNotBlank(String.valueOf(search.getIsdataset()))){
-                wrapper1.eq(Dataset::getIsdataset,search.getIsdataset());
-            }
+
             Page<Dataset> datasetPage = datasetMapper.selectPage(new Page<>(pageNum,pageSize),wrapper1);
 
             return Result.success(datasetPage);

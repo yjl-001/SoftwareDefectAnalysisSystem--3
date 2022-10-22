@@ -17,8 +17,8 @@
 <!--      <el-image style="margin-left: 60px;height: 400px;margin-top:80px " :src="require('../assets/back1.png')" ></el-image>-->
 <!--    </div>-->
 
-    <div class="block">
-      <el-carousel height="300px" style="border: #409EFF">
+    <div class="block"style="background-color:  black;height: 305px">
+      <el-carousel height="300px" >
         <el-carousel-item v-for="(item, index) in urls" :key="index">
           <img v-bind:src="item.url" style="width: 100%;height: 100%">
         </el-carousel-item>

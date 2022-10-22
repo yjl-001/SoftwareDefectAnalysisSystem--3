@@ -22,10 +22,19 @@
         <el-form-item label="使用模型" style="font-weight: bolder">
           <el-select v-model="form.model" placeholder="使用模型">
             <el-option label="不指定" value=""></el-option>
+<!--            <el-option label="朴素贝叶斯" value="beysi"></el-option>-->
             <el-option label="逻辑回归" value="logistic"></el-option>
             <el-option label="支持向量机" value="svm"></el-option>
           </el-select>
         </el-form-item>
+<!--        <el-form-item label="评价指标" style="font-weight: bolder">-->
+<!--          <el-select v-model="form.isdataset" placeholder="使用模型">-->
+<!--            <el-option label="不指定" value= ></el-option>-->
+<!--            <el-option label="CVS" value="0"></el-option>-->
+<!--            <el-option label="LDHH" value="1"></el-option>-->
+<!--            <el-option label="WCHU" value="2"></el-option>-->
+<!--          </el-select>-->
+<!--        </el-form-item>-->
         <el-form-item>
           <el-button type="primary" @click="onSubmit">查询</el-button>
         </el-form-item>
@@ -40,7 +49,7 @@
           fixed
           prop="datasetname"
           label="数据名称"
-          width="250"
+          width="200"
       >
       </el-table-column>
       <el-table-column
@@ -57,6 +66,11 @@
           prop="model"
           label="使用模型"
           width="120">
+      </el-table-column>
+      <el-table-column
+          prop="isdataset"
+          label="评价指标"
+          width="80">
       </el-table-column>
 
 
@@ -488,6 +502,11 @@ export default {
         console.log("request")
         this.tableData = res.data.records
         this.total=res.data.total
+        for(var i =0;i<res.data.total;i++){
+          if(this.tableData[i].isdataset=='0'){this.tableData[i].isdataset='CVS'}
+          if(this.tableData[i].isdataset=='1'){this.tableData[i].isdataset='LDHH'}
+          if(this.tableData[i].isdataset=='2'){this.tableData[i].isdataset='WCHU'}
+        }
       })
     },
     sign_contract(row) {
@@ -520,13 +539,18 @@ export default {
                   username:this.user.username,
                   datasetname:this.form.datasetname,
                   datasetKind:this.form.datasetKind,
-                  model:this.form.model
+                  model:this.form.model,
                 }
               }).then(res =>{
             console.log(res)
             console.log("request")
             this.tableData = res.data.records
             this.total=res.data.total
+            for(var i =0;i<res.data.total;i++){
+              if(this.tableData[i].isdataset=='0'){this.tableData[i].isdataset='CVS'}
+              if(this.tableData[i].isdataset=='1'){this.tableData[i].isdataset='LDHH'}
+              if(this.tableData[i].isdataset=='2'){this.tableData[i].isdataset='WCHU'}
+            }
           })
     },
   },

@@ -409,61 +409,131 @@ export default {
     onSubmit() {
       this.form.userid=this.user.userid;
       if(this.form.isdataset=='0'){
-        //上传
-        request.post("/api/predict/single",this.form).then(res =>{
-          console.log(res.data)
-          if(res.data=='buggy'){
-            this.result='恐怕是有点Bug..';
-            this.dialogVisible=true;
-          }else{
-            this.result='牛,没Bug..';
-            this.dialogVisible=true;
-          }
+        if(
+            this.form.numberOfNonTrivialBugsFoundUntil&&
+            this.form.cvsWEntropy&&
+            this.form.cvsEntropy&&
+            this.form.numberOfCriticalBugsFoundUntil&&
+            this.form.cvsLogEntropy&&
+            this.form.numberOfHighPriorityBugsFoundUntil&&
+            this.form.numberOfMajorBugsFoundUntil&&
+            this.form.cvsLinEntropy&&
+            this.form.numberOfBugsFoundUntil&&
+            this.form.cvsExpEntropy
+        )
+        {//上传
+          request.post("/api/predict/single",this.form).then(res =>{
+            console.log(res.data)
+            if(res.data=='buggy'){
+              this.result='恐怕是有点Bug..';
+              this.dialogVisible=true;
+            }else{
+              this.result='牛,没Bug..';
+              this.dialogVisible=true;
+            }
 // 获取所有类名为card的元素
-          let cards = document.getElementsByClassName("card")
+            let cards = document.getElementsByClassName("card")
 
 // 设置定时器，每0.2秒调用依次showCard()函数
-          let i = setInterval("showCard(cards)", 200)
-          let index = 0
-        })
+            let i = setInterval("showCard(cards)", 200)
+            let index = 0
+          })
+         }
+        else{
+          this.$message({
+            type:"error",
+            message:"请输入完整特征",
+          })
+        }
+
+
       }
       if(this.form.isdataset=='1'){
-        //上传
-        request.post("/api/ldhh/single",this.form).then(res =>{
-          console.log(res.data)
-          if(res.data=='buggy'){
-            this.result='恐怕是有点Bug..';
-            this.dialogVisible=true;
-          }else{
-            this.result='牛,没Bug..';
-            this.dialogVisible=true;
-          }
+        if(this.form.ldhhlcom&&
+            this.form.ldhhfanin&&
+            this.form.ldhhnumberofpublicmethods&&
+            this.form.ldhhnumberofprivateattributes&&
+            this.form.ldhhnumberofpublicattributes&&
+            this.form.ldhhnumberofprivatemethods&&
+            this.form.ldhhnumberofattributesinherited&&
+            this.form.ldhhnoc&&
+            this.form.ldhhwmc&&
+            this.form.ldhhnumberofattributes&&
+            this.form.ldhhnumberoflinesofcode&&
+            this.form.ldhhdit&&
+            this.form.ldhhfanout&&
+            this.form.ldhhnumberofmethodsinherited&&
+            this.form.ldhhrfc&&
+            this.form.ldhhcbo&&
+            this.form.ldhhnumberofmethods){
+          //上传
+          request.post("/api/ldhh/single",this.form).then(res =>{
+            console.log(res.data)
+            if(res.data=='buggy'){
+              this.result='恐怕是有点Bug..';
+              this.dialogVisible=true;
+            }else{
+              this.result='牛,没Bug..';
+              this.dialogVisible=true;
+            }
 // 获取所有类名为card的元素
-          let cards = document.getElementsByClassName("card")
+            let cards = document.getElementsByClassName("card")
 
 // 设置定时器，每0.2秒调用依次showCard()函数
-          let i = setInterval("showCard(cards)", 200)
-          let index = 0
-        })
+            let i = setInterval("showCard(cards)", 200)
+            let index = 0
+          })
+        }else {
+          this.$message({
+            type:"error",
+            message:"请输入完整特征",
+          })
+        }
       }
       if(this.form.isdataset=='2'){
-        //上传
-        request.post("/api/wchu/single",this.form).then(res =>{
-          console.log(res.data)
-          if(res.data=='buggy'){
-            this.result='恐怕是有点Bug..';
-            this.dialogVisible=true;
-          }else{
-            this.result='牛,没Bug..';
-            this.dialogVisible=true;
-          }
+        if(
+            this.form.wchunumberofpublicattributes&&
+            this.form.wchunumberofattributes&&
+            this.form.wchufanin&&
+            this.form.wchunumberofprivatemethods&&
+            this.form.wchunumberofmethods&&
+            this.form.wchunumberofprivateattributes&&
+            this.form.wchunoc&&
+            this.form.wchuwmc&&
+            this.form.wchudit&&
+            this.form.wchunumberofattributesinherited&&
+            this.form.wchufanout&&
+            this.form.wchulcom&&
+            this.form.wchurfc&&
+            this.form.wchunumberofpublicmethods&&
+            this.form.wchucbo&&
+            this.form.wchunumberofmethodsinherited&&
+            this.form.wchunumberoflinesofcode
+        )
+        {//上传
+          request.post("/api/wchu/single",this.form).then(res =>{
+            console.log(res.data)
+            if(res.data=='buggy'){
+              this.result='恐怕是有点Bug..';
+              this.dialogVisible=true;
+            }else{
+              this.result='牛,没Bug..';
+              this.dialogVisible=true;
+            }
 // 获取所有类名为card的元素
-          let cards = document.getElementsByClassName("card")
+            let cards = document.getElementsByClassName("card")
 
 // 设置定时器，每0.2秒调用依次showCard()函数
-          let i = setInterval("showCard(cards)", 200)
-          let index = 0
-        })
+            let i = setInterval("showCard(cards)", 200)
+            let index = 0
+          })
+        }
+        else{
+          this.$message({
+            type:"error",
+            message:"请输入完整特征",
+          })
+        }
       }
 
 
