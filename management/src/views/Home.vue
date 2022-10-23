@@ -2,15 +2,14 @@
 <template style="background-color: royalblue" >
 
   <div class="body">
-    <div><p style="font-size: 200%;color: #409EFF;font-weight: bolder;margin-top: 50px;margin-left: 60px">
+    <div><p style="font-size: 200%;color: #409EFF;font-weight: bolder;margin-top: 50px;margin-left: 50px">
       基于机器学习的缺陷预测系统
     </p>
-      <p style="font-size: 100%;color: darkgray;font-weight: bolder;margin-left: 60px;margin-top: 20px">
-        使用我们的系统预测Bug，就是你们最大的Bug~
+      <p style="font-size: 100%;color: darkgray;font-weight: bolder;margin-left: 50px;margin-top: 20px">
+        使用我们的系统预测Bug，就是您最大的Bug。
       </p></div>
     <div class="hello">
-      <p>系统管理员您好，今天也是元气满满的一天~</p>
-      <p>登录时间：2022-10-06 10:20</p>
+      <p style="font-size: 20px;font-weight: bolder">用户"{{ user.username }}"您好，今天也是元气满满的一天~</p>
     </div>
 
 <!--    <div>-->
@@ -42,6 +41,8 @@ import request from "@/utils/request";
 
 export default {
   created() {
+    let userStr = sessionStorage.getItem("user")||"{}"
+    this.user=JSON.parse(userStr)
     // request.get("/api/datasets_center/deleteHistory",).then(res =>{
     // })
     // this.$message({

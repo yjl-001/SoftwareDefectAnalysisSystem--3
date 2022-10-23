@@ -47,6 +47,10 @@
 
       <el-dialog title="数据预测详情" :visible.sync="visible1">
         <el-table
+            v-loading="loading"
+            element-loading-text="模型预测中..."
+            element-loading-spinner="el-icon-loading"
+            element-loading-background="rgba(0, 0, 0, 0.8)"
             :data="predictData"
             border
             style="width: 100%"
@@ -131,6 +135,10 @@
       </el-dialog>
       <el-dialog title="数据预测详情" :visible.sync="visible2">
         <el-table
+            v-loading="loading"
+            element-loading-text="模型预测中..."
+            element-loading-spinner="el-icon-loading"
+            element-loading-background="rgba(0, 0, 0, 0.8)"
             :data="predictData"
             border
             style="width: 100%"
@@ -250,6 +258,10 @@
       </el-dialog>
       <el-dialog title="数据预测详情" :visible.sync="visible3">
         <el-table
+            v-loading="loading"
+            element-loading-text="模型预测中..."
+            element-loading-spinner="el-icon-loading"
+            element-loading-background="rgba(0, 0, 0, 0.8)"
             :data="predictData"
             border
             style="width: 100%"
@@ -384,6 +396,7 @@ import request from "@/utils/request";
 export default {
   data() {
     return {
+      loading:false,
       isvisible:false,
       visible1:false,
       visible2:false,
@@ -454,21 +467,27 @@ export default {
         // post地址
         //上传
         if(this.form.isdataset=='0'){
+          this.visible1=true
+          this.loading=true
           request.post("/api/predict/dataset",formData,{header:{'Content-Type':'multipart/form-data'}}).then(res =>{
-            this.visible1=true
             this.predictData=res.data
+            this.loading=false
           })
         }
         if(this.form.isdataset=='1'){
+          this.visible2=true
+          this.loading=true
           request.post("/api/ldhh/dataset",formData,{header:{'Content-Type':'multipart/form-data'}}).then(res =>{
-            this.visible2=true
             this.predictData=res.data
+            this.loading=false
           })
         }
         if(this.form.isdataset=='2'){
+          this.visible3=true
+          this.loading=true
           request.post("/api/wchu/dataset",formData,{header:{'Content-Type':'multipart/form-data'}}).then(res =>{
-            this.visible3=true
             this.predictData=res.data
+            this.loading=false
           })
         }
 

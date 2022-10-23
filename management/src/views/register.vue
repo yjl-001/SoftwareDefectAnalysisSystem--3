@@ -19,6 +19,7 @@
 
       <div style="margin: 10px 0;text-align: center">
         <el-button type="primary" size="medium" autocomplete="off" @click="login" >立即注册！</el-button>
+        <el-button type="primary" size="smasll" autocomplete="off" @click= "back">返回</el-button>
       </div>
     </div>
   </div>
@@ -41,6 +42,9 @@ export default {
     }
   },
   methods:{
+    back(){
+      this.$router.push('/login')
+    },
     login(){
       request.post("/api/user/register", this.user,{header:{'Content-Type':'application/json;charset=utf-8'}},).then(res =>{
         if(res.code === '0'){

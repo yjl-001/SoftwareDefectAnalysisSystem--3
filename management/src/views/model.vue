@@ -1174,8 +1174,8 @@ export default {
       //2.准备数据
       //饼图无需配置 xaxis 和 yaxis  数据是由 value name构成的数组
       let data = [
-        { value: 11231, name: "分类正确", },
-        { value: 2267, name: "分类错误" },
+        { value: 921, name: "分类正确", },
+        { value: 79, name: "分类错误" },
       ]
       //3.配置
       let option = {

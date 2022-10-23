@@ -2,16 +2,16 @@
   <div class="container">
     <div class="left_">
       <div class="brief_info">
-        <h3>快速开始</h3>
-        <p>用我们的系统预测Bug，就是你程序最大的Bug...</p>
+        <h3 style="font-size: 60px">快速开始</h3>
+        <p style="font-size: 20px;font-weight: bolder">用我们的系统预测Bug，就是你程序最大的Bug...</p>
         <img src="../assets/back1.png" alt="">
       </div>
-      <div class="customer">
+      <div class="customer"style="margin-top: 240px">
         <p>客户信息</p>
         <CustomerInfo :info="info"></CustomerInfo>
       </div>
       <div class="my_data">
-        <p>我的数据</p>
+<!--        <p>我的数据</p>-->
         <div class="nav_">
           <Nav_ class='nav_item' icon_src='icon.png' info="我的数据集" num=10></Nav_>
           <Nav_ class='nav_item' icon_src='icon.png' info="我的预测报告" num=87></Nav_>
@@ -21,8 +21,8 @@
     </div>
     <div class="right_">
       <div class="banner">
-        <p>系统管理员您好，今天也是元气满满的一天~</p>
-        <p>登录时间：2022-10-06 10:20</p>
+        <p>{{ user.username }}您好，今天也是元气满满的一天~</p>
+<!--        <p>登录时间：2022-10-06 10:20</p>-->
       </div>
       <div class="announcement">
         <p>公告</p>

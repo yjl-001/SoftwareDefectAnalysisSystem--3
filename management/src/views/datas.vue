@@ -36,7 +36,7 @@
 <!--          </el-select>-->
 <!--        </el-form-item>-->
         <el-form-item>
-          <el-button type="primary" @click="onSubmit">查询</el-button>
+          <el-button type="primary" @click="onSubmit" >查询</el-button>
         </el-form-item>
       </el-form>
     </div>
@@ -81,7 +81,8 @@
           <el-button
               @click="sign_contract(scope.row)"
               type="text"
-              size="small">
+              size="small"
+              v-loading.fullscreen.lock="fullscreenLoading">
             查看预测结果
           </el-button>
           <el-button
@@ -109,6 +110,10 @@
 
     <el-dialog title="数据预测详情" :visible.sync="visible1">
       <el-table
+          v-loading="loading"
+          element-loading-text="模型预测中..."
+          element-loading-spinner="el-icon-loading"
+          element-loading-background="rgba(0, 0, 0, 0.8)"
           :data="predictData"
           border
           style="width: 100%"
@@ -193,6 +198,10 @@
     </el-dialog>
     <el-dialog title="数据预测详情" :visible.sync="visible2">
       <el-table
+          v-loading="loading"
+          element-loading-text="模型预测中..."
+          element-loading-spinner="el-icon-loading"
+          element-loading-background="rgba(0, 0, 0, 0.8)"
           :data="predictData"
           border
           style="width: 100%"
@@ -312,6 +321,10 @@
     </el-dialog>
     <el-dialog title="数据预测详情" :visible.sync="visible3">
       <el-table
+          v-loading="loading"
+          element-loading-text="模型预测中..."
+          element-loading-spinner="el-icon-loading"
+          element-loading-background="rgba(0, 0, 0, 0.8)"
           :data="predictData"
           border
           style="width: 100%"
@@ -440,6 +453,7 @@ import request from "@/utils/request";
 export default {
   data(){
     return{
+      loading: false,
       visible1:false,
       visible2:false,
       visible3:false,
@@ -461,6 +475,9 @@ export default {
     this.load()
   },
   methods: {
+    openFullScreen1() {
+      this.fullscreenLoading = true;
+    },
     filterTag(value, row) {
       return row.predictresult === value;
     },
@@ -518,10 +535,10 @@ export default {
           datasetid:row.datasetid
         }}).then(res =>{
         this.predictData=res.data
-        if(res.data[0].ldhhlcom){
+        if(res.data[0].ldhhlcom||res.data[0].ldhhlcom=='0'){
           this.visible2=true;
         }
-        else if(res.data[0].wchufanin){
+        else if(res.data[0].wchufanin||res.data[0].wchufanin=='0'){
           this.visible3=true;
         }
         else{
@@ -542,6 +559,7 @@ export default {
                   model:this.form.model,
                 }
               }).then(res =>{
+            this.fullscreenLoading=false
             console.log(res)
             console.log("request")
             this.tableData = res.data.records
