@@ -136,13 +136,12 @@ public class DatasetController {
         }else {
             System.out.println("bbbbbbbbbbbbbb");
             LambdaQueryWrapper<Dataset> wrapper1;
+            wrapper1 = Wrappers.<Dataset>lambdaQuery().in(Dataset::getDatasetid,datasetIDs);
             if (StrUtil.isNotBlank(search.getDatasetname())){
-                wrapper1 = Wrappers.<Dataset>lambdaQuery().like(Dataset::getDatasetname,search.getDatasetname());
-            }else {
-                wrapper1 = Wrappers.<Dataset>lambdaQuery().in(Dataset::getDatasetid,datasetIDs);
+                wrapper1.like(Dataset::getDatasetname,search.getDatasetname());
             }
             if (StrUtil.isNotBlank(search.getDatasetKind())){
-                wrapper1 = wrapper1.like(Dataset::getDatasetKind,search.getDatasetKind());
+                wrapper1.like(Dataset::getDatasetKind,search.getDatasetKind());
             }
             if (StrUtil.isNotBlank(search.getModel())){
                 wrapper1.eq(Dataset::getModel,search.getModel());
