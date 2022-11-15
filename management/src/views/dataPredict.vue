@@ -427,9 +427,8 @@ export default {
           return false;
         }
         //如果文件类型不在允许上传的范围内
-        if(this.fileType.includes(FileExt)){
+        if(this.fileType.includes(FileExt))
           return true;
-        }
         else {
           this.$message.error("上传文件格式不正确!");
           return false;
