@@ -1,7 +1,7 @@
 package com.example.demo.algo;
 
 import com.example.demo.Utils.DataOperation;
-import com.example.rjqxanalyzation.Utils.LoadData;
+import com.example.demo.Utils.LoadData;
 
 import java.io.*;
 import java.util.ArrayList;
@@ -177,22 +177,22 @@ public class LogisticRegression {
 
 
 
-    public static void main(String[] args) throws IOException {
-        String filename = "data\\JDT_Cvs.csv";
-        double[][] a = LoadData.LoadTrainFeature(filename);
-        double[][] x_train = DataOperation.normalize4Scale(a);
-        //double[][] x_train = a;
-        double[] l = LoadData.LoadLabel(filename);
-        LogisticRegression lr = new LogisticRegression(0.5, 1000, 0.00001,x_train[0].length,x_train.length,x_train, l);
-        double[] w = lr.Updata();
-        String testFileName = "data\\Lucene_Cvs.csv";
-        double[][] b = LoadData.LoadTrainFeature(testFileName);
-        double[][] x_test = DataOperation.normalize4Scale(b);
-        //double[][] x_test = b;
-        double[] y_test = LoadData.LoadLabel(testFileName);
-        lr.test(x_test, y_test);
-        for(int i=0; i<w.length;i++){
-            System.out.println(w[i]);
-        }
-    }
+//    public static void main(String[] args) throws IOException {
+//        String filename = "data\\JDT_Cvs.csv";
+//        double[][] a = LoadData.LoadTrainFeature(filename);
+//        double[][] x_train = DataOperation.normalize4Scale(a);
+//        //double[][] x_train = a;
+//        double[] l = LoadData.LoadLabel(filename);
+//        LogisticRegression lr = new LogisticRegression(0.5, 1000, 0.00001,x_train[0].length,x_train.length,x_train, l);
+//        double[] w = lr.Updata();
+//        String testFileName = "data\\Lucene_Cvs.csv";
+//        double[][] b = LoadData.LoadTrainFeature(testFileName);
+//        double[][] x_test = DataOperation.normalize4Scale(b);
+//        //double[][] x_test = b;
+//        double[] y_test = LoadData.LoadLabel(testFileName);
+//        lr.test(x_test, y_test);
+//        for(int i=0; i<w.length;i++){
+//            System.out.println(w[i]);
+//        }
+//    }
 }

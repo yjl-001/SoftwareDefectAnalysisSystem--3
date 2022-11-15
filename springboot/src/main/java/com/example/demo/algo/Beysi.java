@@ -140,15 +140,15 @@ public class Beysi {
         return GaussProb;
     }
 
-    public static void main(String[] args) throws IOException {
-        String filePath = "data\\JDT_Cvs.csv";
-        double[] y = LoadSVMData.LoadLabel(filePath);
-        double[][] X = LoadSVMData.LoadTrainFeature(filePath);
-
-        Beysi beysi = new Beysi(X, y);
-        String testFilePath = "data\\Lucene_Cvs.csv";
-        double[] test_y = LoadSVMData.LoadLabel(testFilePath);
-        double[][] test_X = LoadSVMData.LoadTrainFeature(testFilePath);
-        beysi.test(test_X, test_y);
-    }
+//    public static void main(String[] args) throws IOException {
+//        String filePath = "data\\JDT_Cvs.csv";
+//        double[] y = LoadSVMData.LoadLabel(filePath);
+//        double[][] X = LoadSVMData.LoadTrainFeature(filePath);
+//
+//        Beysi beysi = new Beysi(X, y);
+//        String testFilePath = "data\\Lucene_Cvs.csv";
+//        double[] test_y = LoadSVMData.LoadLabel(testFilePath);
+//        double[][] test_X = LoadSVMData.LoadTrainFeature(testFilePath);
+//        beysi.test(test_X, test_y);
+//    }
 }

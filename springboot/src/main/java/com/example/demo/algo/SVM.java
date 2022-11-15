@@ -150,20 +150,20 @@ public class SVM {
         System.out.println("acc rate:"+((double)(testX.length-error)/testX.length));
     }
 
-    public static void main(String[] args) throws IOException
-    {
-        String filePath = "data\\JDT_WCHU.csv";
-        double[] y = LoadSVMData.LoadLabel(filePath);
-        double[][] X = LoadSVMData.LoadTrainFeature(filePath);
-
-
-        SVM svm = new SVM(0.00001);
-        svm.Train(X,y,1000);
-        String testFilePath = "data\\Lucene_WCHU.csv";
-        double[] test_y = LoadSVMData.LoadLabel(testFilePath);
-        double[][] test_X = LoadSVMData.LoadTrainFeature(testFilePath);
-        svm.Test(test_X, test_y);
-
-    }
+//    public static void main(String[] args) throws IOException
+//    {
+//        String filePath = "data\\JDT_WCHU.csv";
+//        double[] y = LoadSVMData.LoadLabel(filePath);
+//        double[][] X = LoadSVMData.LoadTrainFeature(filePath);
+//
+//
+//        SVM svm = new SVM(0.00001);
+//        svm.Train(X,y,1000);
+//        String testFilePath = "data\\Lucene_WCHU.csv";
+//        double[] test_y = LoadSVMData.LoadLabel(testFilePath);
+//        double[][] test_X = LoadSVMData.LoadTrainFeature(testFilePath);
+//        svm.Test(test_X, test_y);
+//
+//    }
 
 }

@@ -13,13 +13,13 @@ public class Predict {
         if(type==0){//逻辑回归
             File f;
             if(m_type==0){
-                f = new File("springboot\\weights\\lr_Cvs.txt");
+                f = new File("C:\\Users\\yjl\\Desktop\\SoftwareDefectAnalysisSystem--3\\springboot\\weights\\lr_Cvs.txt");
             }
             else if(m_type==1){
-                f = new File("springboot\\weights\\lr_LDHH.txt");
+                f = new File("C:\\Users\\yjl\\Desktop\\SoftwareDefectAnalysisSystem--3\\springboot\\weights\\lr_LDHH.txt");
             }
             else{
-                f = new File("springboot\\weights\\lr_WCHU.txt");
+                f = new File("C:\\Users\\yjl\\Desktop\\SoftwareDefectAnalysisSystem--3\\springboot\\weights\\lr_WCHU.txt");
             }
             FileInputStream fip = new FileInputStream(f);
             // 构建FileInputStream对象
@@ -52,14 +52,14 @@ public class Predict {
         }if(type==2){
             HashMap<Integer, HashMap<Integer, double[]>> p = new HashMap<>();
             if(m_type==0){
-                p.put(0, getwi("springboot\\weights\\fbeysi_Cvs.txt"));
-                p.put(1,getwi("springboot\\weights\\tbeysi_Cvs.txt"));
+                p.put(0, getwi("C:\\Users\\yjl\\Desktop\\SoftwareDefectAnalysisSystem--3\\springboot\\weights\\fbeysi_Cvs.txt"));
+                p.put(1,getwi("C:\\Users\\yjl\\Desktop\\SoftwareDefectAnalysisSystem--3\\springboot\\weights\\tbeysi_Cvs.txt"));
             }else if(m_type==1){
-                p.put(0, getwi("springboot\\weights\\fbeysi_LDHH.txt"));
-                p.put(1,getwi("springboot\\weights\\tbeysi_LDHH.txt"));
+                p.put(0, getwi("C:\\Users\\yjl\\Desktop\\SoftwareDefectAnalysisSystem--3\\springboot\\weights\\fbeysi_LDHH.txt"));
+                p.put(1,getwi("C:\\Users\\yjl\\Desktop\\SoftwareDefectAnalysisSystem--3\\springboot\\weights\\tbeysi_LDHH.txt"));
             }else{
-                p.put(0, getwi("springboot\\weights\\fbeysi_WCHU.txt"));
-                p.put(1,getwi("springboot\\weights\\tbeysi_WCHU.txt"));
+                p.put(0, getwi("C:\\Users\\yjl\\Desktop\\SoftwareDefectAnalysisSystem--3\\springboot\\weights\\fbeysi_WCHU.txt"));
+                p.put(1,getwi("C:\\Users\\yjl\\Desktop\\SoftwareDefectAnalysisSystem--3\\springboot\\weights\\tbeysi_WCHU.txt"));
             }
 
 
@@ -78,13 +78,13 @@ public class Predict {
         }else{//SVM
             File f;
             if(m_type==0){
-                f = new File("springboot\\weights\\svm_Cvs.txt");
+                f = new File("C:\\Users\\yjl\\Desktop\\SoftwareDefectAnalysisSystem--3\\springboot\\weights\\svm_Cvs.txt");
             }
             else if(m_type==1){
-                f = new File("springboot\\weights\\svm_LDHH.txt");
+                f = new File("C:\\Users\\yjl\\Desktop\\SoftwareDefectAnalysisSystem--3\\springboot\\weights\\svm_LDHH.txt");
             }
             else {
-                f = new File("springboot\\weights\\svm_WCHU.txt");
+                f = new File("C:\\Users\\yjl\\Desktop\\SoftwareDefectAnalysisSystem--3\\springboot\\weights\\svm_WCHU.txt");
             }
             FileInputStream fip = new FileInputStream(f);
             // 构建FileInputStream对象
