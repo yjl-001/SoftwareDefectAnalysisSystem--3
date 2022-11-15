@@ -21,8 +21,9 @@ public class UserInfoControllerTest {
         //2 Result.success(userInfo1)
         UserInfo userInfo = new UserInfo();
         userInfo.setUsername("aa");
-        userInfo.setPassword("da");
-        assertEquals("1",usercontroller.query(userInfo).getCode());//失败
+        userInfo.setPassword("sda");
+        System.out.println("结果："+usercontroller.query(userInfo).getCode());
+//        assertEquals("1",usercontroller.query(userInfo).getCode());//失败
         assertEquals("0",usercontroller.query(userInfo).getCode());//成功
     }
 
@@ -33,33 +34,33 @@ public class UserInfoControllerTest {
         userInfo.setEmail("123@163.com");
         String code = usercontroller.send(userInfo).getCode();
         System.out.println("返回结果"+code);
-        assertEquals("1",code);//失败
+//        assertEquals("1",code);//失败
         assertEquals("0",code);//成功
     }
 
     @Test
     public void save() {
         UserInfo userInfo = new UserInfo();
-        userInfo.setUserid(5);
+//        userInfo.setUserid(5);
         userInfo.setUsername("test");
         userInfo.setPassword("12345");
-        userInfo.setVerifying("081212");
+//        userInfo.setVerifying("081212");
         userInfo.setEmail("111@qq.com");
         userInfo.setJob("测试");
         userInfo.setSex("女");
         userInfo.setPhone("12313123123");
         String code = usercontroller.save(userInfo).getCode();
         System.out.println("返回结果"+code);
-        assertEquals("1",code);//失败
+//        assertEquals("1",code);//失败
         assertEquals("0",code);//成功
 
     }
 
     @Test
     public void alterE() {
-        String code = usercontroller.alterE(5,"111@qq.com","13221321@qq.com").getCode();
+        String code = usercontroller.alterE(5,"22567673673@qq.com","13221321@qq.com").getCode();
         System.out.println("返回结果"+code);
-        assertEquals("1",code);//失败
+//        assertEquals("1",code);//失败
         assertEquals("0",code);//成功
     }
 
@@ -67,7 +68,7 @@ public class UserInfoControllerTest {
     public void alterP() {
         String code = usercontroller.alterP(5,"12345","123456").getCode();
         System.out.println("返回结果"+code);
-        assertEquals("1",code);//失败
+//        assertEquals("1",code);//失败
         assertEquals("0",code);//成功
     }
 
@@ -75,7 +76,7 @@ public class UserInfoControllerTest {
     public void alterI() {
         String code = usercontroller.alterI(1,"usa","123456","女","测试").getCode();
         System.out.println("返回结果"+code);
-        assertEquals("1",code);//失败
+//        assertEquals("1",code);//失败
         assertEquals("0",code);//成功
     }
 
