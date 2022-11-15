@@ -20,8 +20,8 @@ public class UserInfoControllerTest {
         //1 Result.error("1","用户名或密码错误")
         //2 Result.success(userInfo1)
         UserInfo userInfo = new UserInfo();
-        userInfo.setUsername("aa");
-        userInfo.setPassword("sda");
+        userInfo.setUsername("test");
+        userInfo.setPassword("12345");
         System.out.println("结果："+usercontroller.query(userInfo).getCode());
 //        assertEquals("1",usercontroller.query(userInfo).getCode());//失败
         assertEquals("0",usercontroller.query(userInfo).getCode());//成功
@@ -31,7 +31,7 @@ public class UserInfoControllerTest {
     public void send() {
         //发送验证码请求，1验证码错误
         UserInfo userInfo = new UserInfo();
-        userInfo.setEmail("123@163.com");
+        userInfo.setEmail("2924058897@qq.com");
         String code = usercontroller.send(userInfo).getCode();
         System.out.println("返回结果"+code);
 //        assertEquals("1",code);//失败
@@ -41,14 +41,14 @@ public class UserInfoControllerTest {
     @Test
     public void save() {
         UserInfo userInfo = new UserInfo();
-//        userInfo.setUserid(5);
+        userInfo.setUserid(6);
         userInfo.setUsername("test");
         userInfo.setPassword("12345");
-//        userInfo.setVerifying("081212");
-        userInfo.setEmail("111@qq.com");
+        userInfo.setVerifying("081");
+        userInfo.setEmail("123213@qq.com");
         userInfo.setJob("测试");
-        userInfo.setSex("女");
-        userInfo.setPhone("12313123123");
+        userInfo.setSex("man");
+        userInfo.setPhone("1233123213");
         String code = usercontroller.save(userInfo).getCode();
         System.out.println("返回结果"+code);
 //        assertEquals("1",code);//失败
@@ -58,7 +58,7 @@ public class UserInfoControllerTest {
 
     @Test
     public void alterE() {
-        String code = usercontroller.alterE(5,"22567673673@qq.com","13221321@qq.com").getCode();
+        String code = usercontroller.alterE(5,"13221321@qq.com","2924058897@qq.com").getCode();
         System.out.println("返回结果"+code);
 //        assertEquals("1",code);//失败
         assertEquals("0",code);//成功
@@ -66,7 +66,7 @@ public class UserInfoControllerTest {
 
     @Test
     public void alterP() {
-        String code = usercontroller.alterP(5,"12345","123456").getCode();
+        String code = usercontroller.alterP(5,"123","12345").getCode();
         System.out.println("返回结果"+code);
 //        assertEquals("1",code);//失败
         assertEquals("0",code);//成功
@@ -74,7 +74,7 @@ public class UserInfoControllerTest {
 
     @Test
     public void alterI() {
-        String code = usercontroller.alterI(1,"usa","123456","女","测试").getCode();
+        String code = usercontroller.alterI(5,"usa","123456","男","测试").getCode();
         System.out.println("返回结果"+code);
 //        assertEquals("1",code);//失败
         assertEquals("0",code);//成功
@@ -82,9 +82,9 @@ public class UserInfoControllerTest {
 
     @Test
     public void sendEmailCode() {
-        boolean flag = usercontroller.sendEmailCode("11","usa","123456");
+        boolean flag = usercontroller.sendEmailCode("11","cyjshw@163.com","2924058897@qq.com");
         System.out.println("返回结果"+flag);
-        assertTrue(flag);//失败
-        assertFalse(flag);//成功
+//        assertTrue(flag);
+        assertFalse(flag);
     }
 }
